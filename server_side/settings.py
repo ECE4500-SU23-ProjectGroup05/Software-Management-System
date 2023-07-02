@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'MyServer.apps.MyserverConfig',
+    'websockets',  # To communicate with client
+    'channels',  # To enable Django channels
 ]
 
 MIDDLEWARE = [
@@ -55,7 +57,7 @@ ROOT_URLCONF = 'server_side.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates']
+        'DIRS': [BASE_DIR / 'MyServer/templates']
         ,
         'APP_DIRS': True,
         'OPTIONS': {
@@ -69,8 +71,15 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'server_side.wsgi.application'
+# WSGI_APPLICATION = 'server_side.wsgi.application'
 
+ASGI_APPLICATION = 'server_side.asgi.application'
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': "channels.layers.InMemoryChannelLayer"
+    }
+}
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
@@ -82,6 +91,16 @@ DATABASES = {
     }
 }
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'DB_NAME',
+#         'USER': 'DB_USER',
+#         'PASSWORD': 'DB_PASSWORD',
+#         'HOST': 'localhost',   # Or an IP Address that your DB is hosted on
+#         'PORT': '3306',
+#     }
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
