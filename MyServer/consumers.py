@@ -25,10 +25,16 @@ class MyConsumer(AsyncWebsocketConsumer):
         Called when our server receive something.
         """
         # Handle incoming messages from the client
-        if text_data == 'PING':
-            await self.send('PONG and you sent: ' + text_data)
-            await self.send('DATA')
+        try:
+            parsed_data = json.loads(text_data)
+            if "message" in parsed_data and parsed_data["message"] == 'PING':
+                print("Receive the greeting message from a client.")
+                await self.send('PONG and you sent: ' + text_data)
+                await self.send('DATA')
+            else:
+                result = compare_all(parsed_data, OFFICIAL_DATA)
+                RESULT_DATA.append(result)
+                print(result)
 
-        result = compare_all(text_data, OFFICIAL_DATA)
-        print(result)
-        RESULT_DATA.append(result)
+        except json.JSONDecodeError:
+            print("The received client data is not in a valid JSON format.")
