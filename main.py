@@ -1,4 +1,8 @@
 import asyncio
 import communication
 
-asyncio.get_event_loop().run_until_complete(communication.connect())
+communicator = communication.Communication()
+
+asyncio.get_event_loop().run_until_complete(
+    communicator.connect_server(communicator.communicate_with)
+)
