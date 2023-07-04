@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <title>Server</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
+          integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N"
+          crossorigin="anonymous">
+</head>
+
+<body>
+    <div class="container">
+        <div class="col-3">
+            <form>
+                <!-- Content of the page -->
+                <label for="search-history" class="h4 pt-5">查询记录</label>
+                <textarea class="form-control"
+                          id="search-history" readonly rows="10"></textarea><br>
+
+                <label for="input"></label>
+                <input class="form-control"
+                       placeholder="Enter client IP or 'ALL' here"
+                       id="input" type="text"><br>
+
+                <input class="btn btn-primary btn-lg btn-block"
+                       id="submit" type="button" value="确认查询">
+            </form>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script type="text/javascript">
+        // Open a websocket to the backend
+        const querySocket = new WebSocket(
+            `ws://${window.location.host}/web-server`
+        );
+
+        function handleKeyPress(event) {
+            if (event.keyCode === 13) {
+                document.querySelector('#submit').click();
+                return false;
+            }
+        }
+
+        function handleTextLength() {
+            // Limit the text length to 15 characters
+            if (this.value.length > 15) {
+                this.value = this.value.slice(0, 15);
+            }
+        }
+
+        // Deal with special input events
+        document.getElementById('input').addEventListener('input', handleTextLength);
+        document.getElementById('input').addEventListener('keypress', handleKeyPress);
+
+        // Handle text box and query history logic
+        document.querySelector('#submit').onclick = function (e) {
+            const message = document.querySelector('#input');
+            // Send message to the backend
+            if (message.disabled === false) {
+                querySocket.send(JSON.stringify({
+                    'message': message.value,
+                }));
+                // Add message to the history
+                const queryMessage = "Searching for client IP:\n" + message.value
+                    + "\n" + "Please wait a second. :)\n\n";
+                document.querySelector('#search-history').value += queryMessage;
+                // Clear and disable the message input box
+                message.value = "";
+                message.disabled = true;
+            }
+        };
+
+        // Handle websocket connection
+        querySocket.onmessage = function (e) {
+            const message = document.querySelector('#input');
+            if (e.data === "PING, a web connection has established!") {
+                document.querySelector('#search-history').value += "Connection Established.\n\n";
+            } else {
+                document.querySelector('#search-history').value += e.data + "\n\n";
+            }
+            message.disabled = false;
+        };
+    </script>
+
+</body>
+
+</html>
