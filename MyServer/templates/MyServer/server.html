@@ -5,32 +5,46 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <title>Server</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1,
+    user-scalable=0, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
           integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N"
           crossorigin="anonymous">
+    <style>
+        .container {display: flex; overflow-x: auto; white-space: nowrap;}
+        .col-3 {flex: 1; padding: 20px;}
+        .col-8 {flex: 1; padding: 20px;}
+        #search-history {height: 288px; font-family: Consolas, monospace;}
+        #display-board {height: 422px; font-family: Consolas, monospace;}
+    </style>
 </head>
 
 <body>
+    <!-- HTML Part -->
     <div class="container">
         <div class="col-3">
             <form>
                 <!-- Content of the page -->
                 <label for="search-history" class="h4 pt-5">查询记录</label>
                 <textarea class="form-control"
-                          id="search-history" readonly rows="10"></textarea><br>
+                          id="search-history" readonly rows="12"></textarea>
 
                 <label for="input"></label>
                 <input class="form-control"
-                       placeholder="Enter client IP or 'ALL' here"
-                       id="input" type="text"><br>
+                       placeholder="Enter client IP or any address"
+                       id="input" type="text"><br> <!-- ALL = 0.0.0.0 -->
 
                 <input class="btn btn-primary btn-lg btn-block"
                        id="submit" type="button" value="确认查询">
             </form>
+        </div>
+        <div class="col-8">
+            <label for="display-board" class="h4 pt-5">查询结果</label>
+            <textarea class="form-control"
+                      id="display-board" readonly rows="17"></textarea><br>
         </div>
     </div>
 
@@ -42,7 +56,10 @@
         );
 
         function handleKeyPress(event) {
+            // Handle the ENTER keypress
             if (event.keyCode === 13) {
+                // TODO: fix the bug of Enter keypress.
+
                 document.querySelector('#submit').click();
                 return false;
             }
@@ -59,18 +76,31 @@
         document.getElementById('input').addEventListener('input', handleTextLength);
         document.getElementById('input').addEventListener('keypress', handleKeyPress);
 
+        // Re expression for IPv4 address
+        const pattern = /^((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)\.){3}(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\/(3[0-2]|[12]?\d))?$/;
+        const message = document.querySelector('#input');
+        const display = document.querySelector('#display-board');
+        const history = document.querySelector('#search-history');
+
         // Handle text box and query history logic
-        document.querySelector('#submit').onclick = function (e) {
-            const message = document.querySelector('#input');
+        document.querySelector('#submit').onclick = function () {
             // Send message to the backend
             if (message.disabled === false) {
+                // Test the IP address pattern
+                if (pattern.test(message.value))
+                    display.value += "Correct IPv4 address!\n\n"
+                else {
+                    display.value += "Invalid IPv4 address!\n\n"
+                    return;
+                }
+                // Send input text to the backend
                 querySocket.send(JSON.stringify({
                     'message': message.value,
                 }));
                 // Add message to the history
                 const queryMessage = "Searching for client IP:\n" + message.value
                     + "\n" + "Please wait a second. :)\n\n";
-                document.querySelector('#search-history').value += queryMessage;
+                history.value += queryMessage;
                 // Clear and disable the message input box
                 message.value = "";
                 message.disabled = true;
@@ -81,9 +111,9 @@
         querySocket.onmessage = function (e) {
             const message = document.querySelector('#input');
             if (e.data === "PING, a web connection has established!") {
-                document.querySelector('#search-history').value += "Connection Established.\n\n";
+                display.value += "Connection Established.\n\n";
             } else {
-                document.querySelector('#search-history').value += e.data + "\n\n";
+                display.value += e.data + "\n\n";
             }
             message.disabled = false;
         };
