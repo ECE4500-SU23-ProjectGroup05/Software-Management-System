@@ -10,6 +10,8 @@ OFFICIAL_DATA = []
 RESULT_DATA = []
 
 
+# Suggestion: build a class to handle the compare logic.
+
 def read_black_white_list():
     """
     == TODO: Complete the method.
@@ -44,6 +46,23 @@ def compare_all(client_data, official_data=None):
 
     result = client_data
     return result
+
+
+# Suggestion: build a class to handle the user queries.
+
+def query_ip():
+    pass
+
+
+def query_ip_with_mask():
+    return
+
+
+def save_query_result():
+    """
+    Save the query result to a csv file.
+    """
+    pass
 
 
 async def send_message_to_group(group_name, message='DATA'):

@@ -87,6 +87,9 @@ class WebConsumer(AsyncWebsocketConsumer):
                 else:
                     print("Send a kind response to the web client.")
                     await self.send("Sorry, the feature is not currently supported.")
+                    # number of app on the black list, not on list
+                    # message box: 3 new apps has been installed since last time
+                    # message box: The client has installed an app on the black list, etc.
             else:
                 print("Receive a message from a web client.")
                 await self.send("Invalid message format.")
