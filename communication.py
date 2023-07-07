@@ -67,6 +67,7 @@ class Communication:
                 if self.client_data is None:
                     await websocket.send(json.dumps({
                         "status": "new",
+                        "time": utils.get_current_time(),
                         "data": data,
                     }))
                     print('New Data has been sent to server.')
