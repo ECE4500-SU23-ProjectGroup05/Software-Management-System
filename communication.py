@@ -72,9 +72,13 @@ class Communication:
                     print('New Data has been sent to server.')
                     self.client_data = data
                 elif self.client_data != data:
+                    installed = set(data.keys()) - set(self.client_data.keys())
+                    uninstall = set(self.client_data.keys()) - set(data.keys())
                     await websocket.send(json.dumps({
                         "status": "update",
-                        "data": data,
+                        "time": utils.get_current_time(),
+                        "installed": {key: data[key] for key in installed},
+                        "uninstalled": {key: self.client_data[key] for key in uninstall},
                     }))
                     print('The updated data has been sent to server.')
                     self.client_data = data

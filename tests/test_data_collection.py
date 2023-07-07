@@ -14,6 +14,13 @@ class Test(unittest.TestCase):
         print_installed_software()
         self.assertTrue(True)
 
+    def test_get_router_ip(self):
+        Your_IP = "192.168.31.236"  # Change it according to your IP.
+        self.assertTrue(dc.get_router_ip() == Your_IP)
+
+    def test_get_mac_addr(self):
+        self.assertTrue(dc.get_mac_addr() is not None)
+
 
 def print_installed_software():
     """

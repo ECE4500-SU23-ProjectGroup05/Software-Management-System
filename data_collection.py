@@ -1,14 +1,16 @@
 import re
 import winreg
+import socket
+import netifaces
 
 
 def get_installed_software():
     """
-    Get a list of all installed software programs in Windows (support win2000)
-    :return: a list of software names and other information
+    Get a dict of all installed software programs in Windows (support win2000)
+    :return: a dict of software names and other information
     """
-    return get_installed_helper(winreg.KEY_WOW64_32KEY) + get_installed_helper(
-        winreg.KEY_WOW64_64KEY)
+    win64_software = get_installed_helper(winreg.KEY_WOW64_64KEY)
+    return win64_software.update(get_installed_helper(winreg.KEY_WOW64_32KEY))
 
 
 def get_installed_helper(access):
@@ -16,9 +18,11 @@ def get_installed_helper(access):
     Helper function that extracts the software list in Windows Registry
     with given access rights
     :param access: access right to the Windows Registry
-    :return: a list of software names and other information
+    :return: a dict of software information in the form of
+            software_dict = {name1: info1, name2: info1, ...}
+            info1 = {"Name": name1, "Version": version1, ...}
     """
-    _software_list = []
+    _software_dict = {}
     _subkey_str = r"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall"
 
     _query_info = ['Version', 'Publisher', 'Install date',
@@ -54,7 +58,7 @@ def get_installed_helper(access):
                         if len(_software[_query]) == 0:
                             _software[_query] = 'Undefined'
 
-                _software_list.append(_software)
+                _software_dict.update({_name: _software})
 
             except EnvironmentError:
                 continue
@@ -62,4 +66,39 @@ def get_installed_helper(access):
     except FileNotFoundError:
         pass
 
-    return _software_list
+    return _software_dict
+
+
+def get_router_ip():
+    """
+    Get the temporary IPv4 address assigned by the NAT of router
+    :return: current IP address of the device
+    """
+    try:
+        with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as s:
+            # Connect to a random external server
+            s.connect(('6.6.6.6', 80))
+            ip_addr = s.getsockname()[0]
+            return ip_addr
+
+    except socket.error:
+        return None
+
+
+def get_mac_addr():
+    """
+    Get the globally unique MAC address of the device
+    :return: MAC address of the device
+    """
+    try:
+        # Get all network interfaces
+        interfaces = netifaces.interfaces()
+
+        # Find the first non-virtual interface
+        for interface in interfaces:
+            if not interface.startswith("lo"):
+                return netifaces.ifaddresses(interface)[netifaces.AF_LINK][0]['addr']
+
+    except Exception as e:
+        print("ERROR occurred while trying to retrieve MAC address: ", str(e))
+        return None
