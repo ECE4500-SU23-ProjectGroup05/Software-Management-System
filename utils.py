@@ -1,3 +1,4 @@
+import time
 import socket
 import netifaces
 
@@ -27,3 +28,8 @@ def get_mac_addr():
     except Exception as e:
         print("ERROR occurred while trying to retrieve MAC address: ", str(e))
         return None
+
+
+def sleep_for_some_time(hours=72):
+    print("The thread will sleep for " + str(hours) + " hours.")
+    time.sleep(hours)

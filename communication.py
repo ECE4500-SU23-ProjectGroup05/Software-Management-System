@@ -9,9 +9,10 @@ class Communication:
     """
     The base communication model of the client.
     """
-    mac_address = utils.get_mac_addr()
-    client_ip = utils.get_router_ip()
+    mac_address = data_collection.get_mac_addr()
+    client_ip = data_collection.get_router_ip()
     greeting, trigger = "PING", "DATA"
+    client_data = None
 
     async def connect_server(self, actions):
         """
@@ -45,10 +46,11 @@ class Communication:
                 print('Connection Refused. Reconnecting in 15 seconds...')
                 await asyncio.sleep(15)
 
-    async def communicate_with(self, websocket):
+    async def timed_communication(self, websocket, break_time=72):
         """
-        Continuously receive and process messages from the server
+        Receive and process messages from the server at continuous intervals
         :param websocket: the return object of `websocket.connect()`
+        :param break_time: the break time (in hours)
         :return: nothing
         """
         while True:
@@ -61,8 +63,25 @@ class Communication:
             # Process the received message and perform client-side logic accordingly
             if condition is True:
                 data = data_collection.get_installed_software()
-                await websocket.send(json.dumps(data))
-                print('Data has been sent to server.')
+
+                if self.client_data is None:
+                    await websocket.send(json.dumps({
+                        "status": "new",
+                        "data": data,
+                    }))
+                    print('New Data has been sent to server.')
+                    self.client_data = data
+                elif self.client_data != data:
+                    await websocket.send(json.dumps({
+                        "status": "update",
+                        "data": data,
+                    }))
+                    print('The updated data has been sent to server.')
+                    self.client_data = data
+
+                await websocket.close()
+                utils.sleep_for_some_time(break_time)
+                break
 
             # Perform any other client-side logic based on server events
             pass
