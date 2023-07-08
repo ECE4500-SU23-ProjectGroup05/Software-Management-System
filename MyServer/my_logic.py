@@ -102,3 +102,19 @@ def export_query_result():
     and exports the results as a local CSV file
     """
     pass
+
+
+async def send_message_to_group(group_name, message='DATA'):
+    """
+    Send a message to the specific group
+    :param group_name: the group to send
+    :param message: the message to send, can be a dict
+    :return: nothing
+    """
+    channel_layer = get_channel_layer()
+    await channel_layer.group_send(
+        group_name, {
+            'type': 'web.message',
+            'message': message
+        }
+    )
