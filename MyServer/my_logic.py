@@ -32,7 +32,7 @@ def read_black_white_list():
     # Replace app_name with real application's name (e.g. Macfee)
     official_data_format = {"app_name1": data, "app_name2": data}
 
-    white_list = WhiteList.obejcts.raw("select * from MyServer_whitelist")
+    white_list = WhiteList.objects.raw("select * from MyServer_whitelist")
     for row in white_list:
         if row.app_name in OFFICIAL_DATA:
             OFFICIAL_DATA[row.app_name]["version"].add(row.version)
@@ -49,7 +49,7 @@ def compare_all(client_data, client_ip, official_data=None):
     """
     This method compare the client_data with the official list according
     to its ip_address
-    :return: unauthorize software name and its data in a dict format
+    :return: unauthorized software name and its data in a dict format
     """
 
     if official_data is None:
