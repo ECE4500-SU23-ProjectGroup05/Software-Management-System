@@ -10,7 +10,6 @@ from channels.layers import get_channel_layer
 
 # Global variable that stores the black and white list.
 OFFICIAL_DATA = {}
-RESULT_DATA = []
 
 
 # Suggestion: build a class to handle the compare logic.
@@ -128,3 +127,5 @@ async def send_message_to_group(group_name, message='DATA'):
             'message': message
         }
     )
+
+read_black_white_list()

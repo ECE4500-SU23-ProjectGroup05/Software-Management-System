@@ -44,3 +44,5 @@ class UnauthorizedApp(models.Model):
 
     class Meta:
         unique_together = ("app_name", "ip_addr")
+
+

@@ -1,8 +1,8 @@
 import json
 
 from channels.generic.websocket import AsyncWebsocketConsumer
-from MyServer.my_logic import compare_all, OFFICIAL_DATA, RESULT_DATA, \
-    send_message_to_group
+from MyServer.my_logic import OFFICIAL_DATA, compare_all, \
+    query_ip, query_ip_with_mask, export_query_result, send_message_to_group
 
 
 class MyConsumer(AsyncWebsocketConsumer):
@@ -43,13 +43,11 @@ class MyConsumer(AsyncWebsocketConsumer):
                 self.client_ip = parsed_data["client_ip"]
                 await self.send('DATA')
             else:
-                result = compare_all(parsed_data, OFFICIAL_DATA)
-                RESULT_DATA.append({
-                    "mac_address": self.client_mac,
-                    "client_ip": self.client_ip,
-                    "result": result,
-                })
+                result = compare_all(parsed_data, self.client_ip, OFFICIAL_DATA)
+                # TODO: store the comparison result into the database
+
                 print(result)
+                print("Notice: Comparison results has printed.")
 
         except json.JSONDecodeError:
             print("The received client data is not in a valid JSON format.")
@@ -80,16 +78,24 @@ class WebConsumer(AsyncWebsocketConsumer):
         try:
             parsed_data = json.loads(text_data)
             if "message" in parsed_data:
-                if parsed_data["message"] == 'ALL':
+                IPv4_addr = parsed_data["message"]
+                if IPv4_addr == '0.0.0.0':
                     print("Receive a QueryAll message from a web client.")
                     await send_message_to_group('clients', 'DATA')
-                    await self.send(json.dumps(RESULT_DATA))
+                    await self.send(json.dumps(query_ip(IPv4_addr)))
                 else:
-                    print("Send a kind response to the web client.")
-                    await self.send("Sorry, the feature is not currently supported.")
-                    # number of app on the black list, not on list
-                    # message box: 3 new apps has been installed since last time
+                    if '/' in IPv4_addr:
+                        await self.send(json.dumps(query_ip_with_mask(IPv4_addr)))
+                    else:
+                        await self.send(json.dumps(query_ip(IPv4_addr)))
+                    print("The result has been sent to the web client.")
+
+                    # TODO: complete the following feature if possible
+                    # Include number of app on the black list, not on list, etc.
+                    # in the result data sent to the web UI.
+                    # message box: e.g., 3 new apps has been installed since last time
                     # message box: The client has installed an app on the black list, etc.
+                export_query_result()
             else:
                 print("Receive a message from a web client.")
                 await self.send("Invalid message format.")
