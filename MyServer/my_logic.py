@@ -1,6 +1,7 @@
 import os
 import csv
 import json
+import ipaddress
 
 from .models import WhiteList, UnauthorizedApp 
 
@@ -92,7 +93,16 @@ def query_ip_with_mask(input_IP):
     format: e.g., '192.168.0.32/27') in the database
     :return: all unauthorized apps and info within the given IP range
     """
-    pass
+    ip_net = ipaddress.ip_network(input_IP,strict = False)
+    start_ip = int(ip_net.network_address)
+    end_ip = int(ip_net.broadcast_address)
+    result = []
+    all_data = UnauthorizedApp.objects.raw("select * from MyServer_unauthorizedapp)
+    for data in all_data:
+        ip_addr_num = int(ipaddress.ip_network(data.ip_addr).network_address)
+        if ip_addr_num <= end_ip and ip_addr_num >= start_ip:
+            result.append(data)    
+    return result
   
   
 def export_query_result():
