@@ -2,7 +2,7 @@ import os
 import csv
 import json
 
-from .models import WhiteList
+from .models import WhiteList, UnauthorizedApp 
 
 from server_side.settings import BASE_DIR
 
@@ -70,3 +70,14 @@ def compare_all(client_data,client_ip,official_data=None):
         result[app_name] = app_data
     
     return result
+
+
+def query_ip(input_IP):
+    """
+    input format: e.g., '192.0'
+    output: return all unauthorized app where ip_addr starts with '192.0'
+    """
+    param = [input_IP+"%%"]
+    result = UnauthorizedApp.objects.raw("select * from MyServer_unauthorizedapp where ip_addr like %s",param)
+    return result
+    
