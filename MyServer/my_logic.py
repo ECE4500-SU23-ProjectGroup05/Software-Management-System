@@ -5,11 +5,14 @@ import json
 from .models import WhiteList, UnauthorizedApp 
 
 from server_side.settings import BASE_DIR
+from channels.layers import get_channel_layer
 
 # Global variable that stores the black and white list.
 OFFICIAL_DATA = {}
 RESULT_DATA = []
 
+
+# Suggestion: build a class to handle the compare logic.
 
 def read_black_white_list():
     """
@@ -74,10 +77,27 @@ def compare_all(client_data,client_ip,official_data=None):
 
 def query_ip(input_IP):
     """
-    input format: e.g., '192.0'
-    output: return all unauthorized app where ip_addr starts with '192.0'
+    This method returns the result information for a given IP (with input 
+    format: e.g., '192.0', '192.168.0.212') in the database
+    :return: all unauthorized apps where ip_addr starts with the given IP
     """
     param = [input_IP+"%%"]
     result = UnauthorizedApp.objects.raw("select * from MyServer_unauthorizedapp where ip_addr like %s",param)
     return result
-    
+
+
+def query_ip_with_mask(input_IP):
+    """
+    This method returns the result information for a given IP (with input 
+    format: e.g., '192.168.0.32/27') in the database
+    :return: all unauthorized apps and info within the given IP range
+    """
+    pass
+  
+  
+def export_query_result():
+    """
+    The method reads the data of the comparison results from the database
+    and exports the results as a local CSV file
+    """
+    pass

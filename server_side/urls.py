@@ -19,5 +19,5 @@ from MyServer import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    # path('', views.server),
+    path('', views.server),
 ]
