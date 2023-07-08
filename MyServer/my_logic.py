@@ -2,6 +2,8 @@ import os
 import csv
 import json
 
+from .models import WhiteList
+
 from server_side.settings import BASE_DIR
 
 # Global variable that stores the black and white list.
@@ -16,7 +18,7 @@ def read_black_white_list():
     :return: data in a dict format
     """
     file_path = os.path.join(BASE_DIR, 'MyServer', 'test.csv')
-
+    
 
     # Data format of the given OFFICIAL_DATA.
     data = {
@@ -27,9 +29,16 @@ def read_black_white_list():
     # Replace app_name with real application's name (e.g. Macfee)
     official_data_format = { "app_name1": data,"app_name2": data}
 
-    # TODO: Replace the format with real data stored in database,
-    #       which will be stored through admin page
-    OFFICIAL_DATA = official_data_format
+    white_list = WhiteList.obejcts.raw("select * from MyServer_whitelist")
+    for row in white_list:
+        if row.app_name in OFFICIAL_DATA:
+            OFFICIAL_DATA[row.app_name]["version"].add(row.version)
+            OFFICIAL_DATA[row.app_name]["IP_addr"].add(row.ip_addr)
+        else:
+            OFFICIAL_DATA[row.app_name] = {
+                "version": set(row.version),
+                "IP_addr": set(row.ip_addr)
+                }
     return OFFICIAL_DATA
 
 
