@@ -1,8 +1,10 @@
 import json
 
 from channels.generic.websocket import AsyncWebsocketConsumer
-from MyServer.my_logic import OFFICIAL_DATA, compare_all, read_black_white_list\
-    query_ip, query_ip_with_mask, export_query_result, send_message_to_group
+
+from MyServer.my_logic import OFFICIAL_DATA, CLIENTS_ID, \
+    read_black_white_list, query_ip, query_ip_with_mask, \
+    export_query_result, send_message_to_group, compare_all
 from .models import UnauthorizedApp
 
 
@@ -27,6 +29,7 @@ class MyConsumer(AsyncWebsocketConsumer):
         await self.channel_layer.group_discard('clients', self.channel_name)
         # Perform disconnection cleanup here
         print("NOTICE: A client is disconnected from the server.")
+        CLIENTS_ID.discard(self.client_mac)
         pass
 
     async def receive(self, text_data=None, bytes_data=None, **kwargs):
@@ -41,26 +44,30 @@ class MyConsumer(AsyncWebsocketConsumer):
                 await self.send('PONG and you sent: ' + text_data)
                 self.client_mac = parsed_data["mac_address"]
                 self.client_ip = parsed_data["client_ip"]
+                CLIENTS_ID.add(self.client_mac)
                 await self.send('DATA')
             else:
                 if parsed_data["status"] == "update":
                     new_client_app = {}
                     for app_name, app_data in parsed_data["installed"].items():
-                        client_data = {}
-                        client_data['version'] = app_data['Version']
-                        client_data['Install_date'] = app_data['Install date']
+                        client_data = {
+                            'version': app_data['Version'],
+                            'Install_date': app_data['Install date']
+                        }
                         new_client_app[app_name] = client_data
                     read_black_white_list()
                     result = compare_all(new_client_app, self.client_ip, OFFICIAL_DATA)
-                    
+
                     # store compare result
                     for new_app_name, new_app_data in result.items():
-                        new_row = UnauthorizedApp(app_name = new_app_name, reason = "unauthorized", ip_addr = self.client_ip, install_date = new_app_data["Install_date"])
+                        new_row = UnauthorizedApp(app_name=new_app_name, reason="unauthorized",
+                                                  ip_addr=self.client_ip,
+                                                  install_date=new_app_data["Install_date"])
                         new_row.save()
                     # delete uninstall app
-                    for del_app_name in parsed_data["uinstalled"]:
-                        UnauthorizedApp.objects.filter(app_name = del_app_name, ip_addr = self.client_ip).delete()
-                    
+                    for del_app_name in parsed_data["uninstalled"]:
+                        UnauthorizedApp.objects.filter(app_name=del_app_name, ip_addr=self.client_ip).delete()
+
                     print(result)
                     print("Notice: Comparison results has printed.")
 

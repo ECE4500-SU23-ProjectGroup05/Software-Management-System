@@ -10,6 +10,7 @@ from channels.layers import get_channel_layer
 
 # Global variable that stores the black and white list.
 OFFICIAL_DATA = {}
+CLIENTS_ID = set()
 
 
 # Suggestion: build a class to handle the compare logic.
