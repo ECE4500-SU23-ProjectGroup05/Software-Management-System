@@ -3,6 +3,7 @@ import json
 from channels.generic.websocket import AsyncWebsocketConsumer
 from MyServer.my_logic import OFFICIAL_DATA, compare_all, read_black_white_list\
     query_ip, query_ip_with_mask, export_query_result, send_message_to_group
+from .models import UnauthorizedApp
 
 
 class MyConsumer(AsyncWebsocketConsumer):
@@ -52,7 +53,14 @@ class MyConsumer(AsyncWebsocketConsumer):
                     read_black_white_list()
                     result = compare_all(new_client_app, self.client_ip, OFFICIAL_DATA)
                     
-                    # TODO: Delete Uninstall software and store the compare result
+                    # store compare result
+                    for new_app_name, new_app_data in result.items():
+                        new_row = UnauthorizedApp(app_name = new_app_name, reason = "unauthorized", ip_addr = self.client_ip, install_date = new_app_data["Install_date"])
+                        new_row.save()
+                    # delete uninstall app
+                    for del_app_name in parsed_data["uinstalled"]:
+                        UnauthorizedApp.objects.filter(app_name = del_app_name, ip_addr = self.client_ip).delete()
+                    
                     print(result)
                     print("Notice: Comparison results has printed.")
 
