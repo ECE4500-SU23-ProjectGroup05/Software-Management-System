@@ -4,6 +4,7 @@ import json
 import ipaddress
 
 from .models import WhiteList, UnauthorizedApp
+from django.forms.models import model_to_dict
 
 from server_side.settings import BASE_DIR
 from channels.layers import get_channel_layer
@@ -85,7 +86,8 @@ def query_ip(input_IP):
     """
     param = [input_IP + "%%"]
     result = UnauthorizedApp.objects.raw("select * from MyServer_unauthorizedapp where ip_addr like %s", param)
-    return result
+    result_dict = [model_to_dict(data) for data in result]
+    return result_dict
 
 
 def query_ip_with_mask(input_IP):
@@ -102,6 +104,7 @@ def query_ip_with_mask(input_IP):
     for data in all_data:
         ip_addr_num = int(ipaddress.ip_network(data.ip_addr).network_address)
         if end_ip >= ip_addr_num >= start_ip:
+            data_dict = model_to_dict(data)
             result.append(data)
     return result
 
