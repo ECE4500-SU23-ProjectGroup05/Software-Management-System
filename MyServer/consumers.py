@@ -1,7 +1,7 @@
 import json
 
 from channels.generic.websocket import AsyncWebsocketConsumer
-from MyServer.my_logic import OFFICIAL_DATA, compare_all, \
+from MyServer.my_logic import OFFICIAL_DATA, compare_all, read_black_white_list\
     query_ip, query_ip_with_mask, export_query_result, send_message_to_group
 
 
@@ -42,11 +42,19 @@ class MyConsumer(AsyncWebsocketConsumer):
                 self.client_ip = parsed_data["client_ip"]
                 await self.send('DATA')
             else:
-                result = compare_all(parsed_data, self.client_ip, OFFICIAL_DATA)
-                # TODO: store the comparison result into the database
-
-                print(result)
-                print("Notice: Comparison results has printed.")
+                if parsed_data["status"] == "update":
+                    new_client_app = {}
+                    for app_name, app_data in parsed_data["installed"].items():
+                        client_data = {}
+                        client_data['version'] = app_data['Version']
+                        client_data['Install_date'] = app_data['Install date']
+                        new_client_app[app_name] = client_data
+                    read_black_white_list()
+                    result = compare_all(new_client_app, self.client_ip, OFFICIAL_DATA)
+                    
+                    # TODO: Delete Uninstall software and store the compare result
+                    print(result)
+                    print("Notice: Comparison results has printed.")
 
         except json.JSONDecodeError:
             print("The received client data is not in a valid JSON format.")

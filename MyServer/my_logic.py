@@ -64,10 +64,10 @@ def compare_all(client_data, client_ip, official_data=None):
 
     # TODO: Replace the format with real data when client_data is
     #       in the correct format
-    for app_name, app_data in client_data_format.items():
+    for app_name, app_data in client_data.items():
         if app_name in official_data:
             if ("0.0.0.0" in official_data[app_name]['IP_addr']) or (
-                    client_ip_format in official_data[app_name]['IP_addr']):
+                    client_ip in official_data[app_name]['IP_addr']):
                 if ('any' in official_data[app_name]['version']) or (
                         app_data['version'] in official_data[app_name]['version']):
                     continue
