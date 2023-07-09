@@ -6,7 +6,6 @@ from MyServer.my_logic import OFFICIAL_DATA, compare_all, \
 
 
 class MyConsumer(AsyncWebsocketConsumer):
-
     client_ip = ""
     client_mac = ""
 
@@ -80,22 +79,25 @@ class WebConsumer(AsyncWebsocketConsumer):
             if "message" in parsed_data:
                 IPv4_addr = parsed_data["message"]
                 if IPv4_addr == '0.0.0.0':
-                    print("Receive a QueryAll message from a web client.")
+                    print("Receive a '0.0.0.0' message from a web client.")
                     await send_message_to_group('clients', 'DATA')
-                    await self.send(json.dumps(query_ip(IPv4_addr)))
+                    data = query_ip(IPv4_addr)
+                elif '/' in IPv4_addr:
+                    print("Receive an 'xx/oo' message from a web client.")
+                    data = query_ip_with_mask(IPv4_addr)
                 else:
-                    if '/' in IPv4_addr:
-                        await self.send(json.dumps(query_ip_with_mask(IPv4_addr)))
-                    else:
-                        await self.send(json.dumps(query_ip(IPv4_addr)))
-                    print("The result has been sent to the web client.")
+                    print("Receive an IP addr message from a web client.")
+                    data = query_ip(IPv4_addr)
 
-                    # TODO: complete the following feature if possible
-                    # Include number of app on the black list, not on list, etc.
-                    # in the result data sent to the web UI.
-                    # message box: e.g., 3 new apps has been installed since last time
-                    # message box: The client has installed an app on the black list, etc.
-                export_query_result()
+                export_query_result(data, IPv4_addr)
+                await self.send(json.dumps(data))
+                print("The result has been sent to the web client.")
+
+                # TODO: complete the following feature if possible
+                # Include number of app on the black list, not on list, etc.
+                # in the result data sent to the web UI.
+                # message box: e.g., 3 new apps has been installed since last time
+                # message box: The client has installed an app on the black list, etc.
             else:
                 print("Receive a message from a web client.")
                 await self.send("Invalid message format.")

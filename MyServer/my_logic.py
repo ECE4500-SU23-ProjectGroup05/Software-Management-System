@@ -105,11 +105,22 @@ def query_ip_with_mask(input_IP):
     return result
 
 
-def export_query_result():
+def export_query_result(data, filename):
     """
     The method reads the data of the comparison results from the database
     and exports the results as a local CSV file
+    :param data: the result data in dict format
+    :param filename: the name of the CSV file
+    :return: nothing
     """
+    keys = data[0].keys() if data else []
+    filename = filename.replace('/', '~')
+
+    with open(filename, 'w', newline='') as csvfile:
+        writer = csv.DictWriter(csvfile, fieldnames=keys)
+        writer.writeheader()
+        writer.writerows(data)
+
     pass
 
 
