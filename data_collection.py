@@ -10,7 +10,8 @@ def get_installed_software():
     :return: a dict of software names and other information
     """
     win64_software = get_installed_helper(winreg.KEY_WOW64_64KEY)
-    return win64_software.update(get_installed_helper(winreg.KEY_WOW64_32KEY))
+    win64_software.update(get_installed_helper(winreg.KEY_WOW64_32KEY))
+    return win64_software
 
 
 def get_installed_helper(access):
