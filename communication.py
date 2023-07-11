@@ -68,8 +68,8 @@ class Communication:
         """
         self._test_connection()
         while self.running:
-            utils.sleep_for_some_time(break_time)
             self._send_software_info()
+            utils.sleep_for_some_time(break_time)
 
     def _timed_communication_thread(self, break_time):
         """
