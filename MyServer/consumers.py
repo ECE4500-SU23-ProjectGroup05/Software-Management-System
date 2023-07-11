@@ -17,7 +17,7 @@ class MyConsumer(WebsocketConsumer):
         self.accept()
         # Add this consumer to a specific group
         self.channel_layer.group_add(group='clients',
-                                           channel=self.channel_name)
+                                     channel=self.channel_name)
         self.send(json.dumps(
             {
                 "message": "PING, a ws connection has established!",
@@ -48,51 +48,53 @@ class MyConsumer(WebsocketConsumer):
                 self.send('DATA')
             else:
                 if parsed_data["status"] == "update":
-                    new_client_app = {}
-                    for app_name, app_data in parsed_data["installed"].items():
-                        client_data = {
-                            'version': app_data['Version'],
-                            'Install_date': app_data['Install date']
-                        }
-                        new_client_app[app_name] = client_data
-                    read_black_white_list()
-                    result = compare_all(new_client_app, self.client_ip, OFFICIAL_DATA)
+                    # compare the data
+                    result = self.compare_client_info(parsed_data)
 
                     # store compare result
                     for new_app_name, new_app_data in result.items():
-                        new_row = UnauthorizedApp(app_name=new_app_name, reason="unauthorized",
+                        new_row = UnauthorizedApp(app_name=new_app_name,
+                                                  reason="unauthorized",
                                                   ip_addr=self.client_ip,
                                                   install_date=new_app_data["Install_date"])
                         new_row.save()
                     # delete uninstall app
                     for del_app_name in parsed_data["uninstalled"]:
-                        UnauthorizedApp.objects.filter(app_name=del_app_name, ip_addr=self.client_ip).delete()
+                        UnauthorizedApp.objects.filter(app_name=del_app_name,
+                                                       ip_addr=self.client_ip).delete()
 
                     print(result)
                     print("Notice: Comparison results has printed.")
                 elif parsed_data['status'] == "new":
-                    new_client_app = {}
-                    for app_name, app_data in parsed_data["installed"].items():
-                        client_data = {
-                            'version': app_data['Version'],
-                            'Install_date': app_data['Install date']
-                        }
-                        new_client_app[app_name] = client_data
-                    read_black_white_list()
-                    result = compare_all(new_client_app, self.client_ip, OFFICIAL_DATA)
+                    # compare the data
+                    result = self.compare_client_info(parsed_data)
 
                     # store compare result
                     for new_app_name, new_app_data in result.items():
-                        database_data = UnauthorizedApp.objects.filter(app_name=new_app_name, ip_addr=self.client_ip)
+                        database_data = UnauthorizedApp.objects.filter(app_name=new_app_name,
+                                                                       ip_addr=self.client_ip)
                         if database_data.exists():
                             pass
                         else:
-                            new_row = UnauthorizedApp(app_name=new_app_name, reason="unauthorized",
-                                                        ip_addr=self.client_ip,
-                                                        install_date=new_app_data["Install_date"])
+                            new_row = UnauthorizedApp(app_name=new_app_name,
+                                                      reason="unauthorized",
+                                                      ip_addr=self.client_ip,
+                                                      install_date=new_app_data["Install_date"])
                             new_row.save()
+
         except json.JSONDecodeError:
             print("The received client data is not in a valid JSON format.")
+
+    def compare_client_info(self, parsed_data):
+        new_client_app = {}
+        for app_name, app_data in parsed_data["installed"].items():
+            client_data = {
+                'version': app_data['Version'],
+                'Install_date': app_data['Install date']
+            }
+            new_client_app[app_name] = client_data
+        read_black_white_list()
+        return compare_all(new_client_app, self.client_ip, OFFICIAL_DATA)
 
     def web_message(self, event):
         message = event.get('message')
@@ -132,7 +134,7 @@ class WebConsumer(WebsocketConsumer):
                     print("Receive an IP addr message from a web client.")
                     data = query_ip(IPv4_addr)
 
-                #export_query_result(data, IPv4_addr)
+                # export_query_result(data, IPv4_addr)
                 self.send(json.dumps(data))
                 print("The result has been sent to the web client.")
 
