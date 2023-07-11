@@ -7,7 +7,7 @@ class Test(unittest.TestCase):
         self.assertTrue(dc.get_installed_software() is not None)
 
     def test_non_empty(self):
-        for _software in dc.get_installed_software():
+        for _software in dc.get_installed_software().values():
             self.assertTrue(_software.values() != "")
 
     def test_output(self):
@@ -35,7 +35,7 @@ def print_installed_software():
     print("{:<70} {:<20} {:<30}".format('SoftwareName', 'Version', 'Publisher'))
     print("{:<70} {:<20} {:<30}".format('------------', '-------', '---------'))
 
-    for _software in _software_list:
+    for _software in _software_list.values():
         _name = format_name(_software['Name'], 70)
         _publisher = format_name(_software['Publisher'], 30)
         GBK_count = sum(1 for char in _software['Name'][:70]
