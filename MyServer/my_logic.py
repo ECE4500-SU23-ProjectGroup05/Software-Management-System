@@ -123,8 +123,9 @@ def export_query_result(data, filename):
     with open(filename, 'w', newline='') as csvfile:
         writer = csv.DictWriter(csvfile, fieldnames=keys)
         writer.writeheader()
-        writer.writerows(data)
 
+        for row in data:
+            writer.writerow(row)
     pass
 
 
