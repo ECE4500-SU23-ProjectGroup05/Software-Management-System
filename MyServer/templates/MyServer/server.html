@@ -58,8 +58,7 @@
         function handleKeyPress(event) {
             // Handle the ENTER keypress
             if (event.keyCode === 13) {
-                // TODO: fix the bug of Enter keypress.
-
+                event.preventDefault();
                 document.querySelector('#submit').click();
                 return false;
             }
