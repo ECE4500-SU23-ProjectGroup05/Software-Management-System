@@ -32,6 +32,9 @@ class WhiteList(models.Model):
     version = models.CharField(max_length=256)
     ip_addr = models.CharField(max_length=256)
 
+    def __str__(self):
+        return f"{self.ip_addr}: {self.app_name} {self.version}"
+
     class Meta:
         unique_together = ("app_name", "version", "ip_addr")
 
@@ -42,5 +45,7 @@ class UnauthorizedApp(models.Model):
     ip_addr = models.CharField(max_length=256)
     install_date = models.CharField(max_length=256)  # datekey format YYYYMMDD
 
+    def __str__(self):
+        return f"{self.ip_addr}: {self.app_name}"
     class Meta:
         unique_together = ("app_name", "ip_addr")
