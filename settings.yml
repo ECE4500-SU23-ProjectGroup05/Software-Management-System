@@ -1,0 +1,8 @@
+# The IPv4 address of the server
+server-IP: 127.0.0.1
+
+# The port
+port: 8000
+
+# Update interval in hours
+time: 0.0025  # 9s for testing

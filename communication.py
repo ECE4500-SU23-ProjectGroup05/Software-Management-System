@@ -14,12 +14,18 @@ class Communication:
     mac_address, client_ip = None, None
     greeting, trigger = "PING", "DATA"
 
-    def __init__(self, websocket_url, data=None):
-        self.ws_url = websocket_url
-        self.client_data = data
-        self.websocket = None
+    def __init__(self, websocket_url, break_time=2.5e-3):
+        """
+        The constructor of the class Communication
+        :param websocket_url: The url used to establish websocket connection
+        :param break_time: the break time (in hours)
+        """
         self.exception_q = queue.Queue()
         self.lock = threading.Lock()
+        self.ws_url = websocket_url
+        self.time = break_time
+        self.client_data = None
+        self.websocket = None
         self.running = True
 
     def connect_server(self, actions):
@@ -30,7 +36,7 @@ class Communication:
         """
         while True:
             try:
-                ws = websocket.create_connection('ws://127.0.0.1:8000/ws/socket-server/')
+                ws = websocket.create_connection(self.ws_url)
                 print('WebSockets connection established.')
 
                 self.mac_address = data_collection.get_mac_addr()
@@ -59,27 +65,26 @@ class Communication:
                 self.running = True
                 time.sleep(15)
 
-    def timed_communication(self, break_time=2.5e-3):
+    def timed_communication(self):
         """
         Send messages to the server (connected through websocket)
         at continuous intervals (break time)
-        :param break_time: the break time (in hours)
         :return: nothing
         """
         self._test_connection()
         while self.running:
             self._send_software_info()
-            utils.sleep_for_some_time(break_time)
+            utils.sleep_for_some_time(self.time)
 
-    def _timed_communication_thread(self, break_time):
+    def _timed_communication_thread(self):
         """
         Run timed_communication() and throw the exception to the
         class-level queue
-        :param break_time: the break time (in hours)
+        :param
         :return: nothing
         """
         try:
-            self.timed_communication(break_time)
+            self.timed_communication()
         except Exception as e:
             self.lock.acquire()
             self.running = False
@@ -126,7 +131,7 @@ class Communication:
         """
         thread1 = threading.Thread(
             target=self._timed_communication_thread,
-            args=(2.5e-3,),
+            args=(),
             daemon=True,
         )
         thread2 = threading.Thread(
