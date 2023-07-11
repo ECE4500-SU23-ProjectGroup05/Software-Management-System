@@ -1,7 +1,7 @@
 import re
+import uuid
 import winreg
 import socket
-import netifaces
 
 
 def get_installed_software():
@@ -92,13 +92,9 @@ def get_mac_addr():
     :return: MAC address of the device
     """
     try:
-        # Get all network interfaces
-        interfaces = netifaces.interfaces()
-
-        # Find the first non-virtual interface
-        for interface in interfaces:
-            if not interface.startswith("lo"):
-                return netifaces.ifaddresses(interface)[netifaces.AF_LINK][0]['addr']
+        mac_address = uuid.getnode()
+        mac_address = ':'.join(('%012X' % mac_address)[i:i + 2] for i in range(0, 12, 2))
+        return mac_address
 
     except Exception as e:
         print("ERROR occurred while trying to retrieve MAC address: ", str(e))
