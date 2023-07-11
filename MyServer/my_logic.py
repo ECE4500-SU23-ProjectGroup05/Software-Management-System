@@ -128,7 +128,7 @@ def export_query_result(data, filename):
     pass
 
 
-async def send_message_to_group(group_name, message='DATA'):
+def send_message_to_group(group_name, message='DATA'):
     """
     Send a message to the specific group
     :param group_name: the group to send
@@ -136,11 +136,12 @@ async def send_message_to_group(group_name, message='DATA'):
     :return: nothing
     """
     channel_layer = get_channel_layer()
-    await channel_layer.group_send(
+    channel_layer.group_send(
         group_name, {
             'type': 'web.message',
             'message': message
         }
     )
+
 
 read_black_white_list()
