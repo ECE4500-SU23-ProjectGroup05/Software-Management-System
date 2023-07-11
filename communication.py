@@ -167,7 +167,7 @@ class Communication:
         # If it is the first time to send the data
         if self.client_data is None:
             self.websocket.send(json.dumps({
-                "status": "update",  # "status": "new"
+                "status": "new",
                 "time": utils.get_current_time(),
                 "installed": data,
                 "uninstalled": {},
