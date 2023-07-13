@@ -43,9 +43,10 @@ class UnauthorizedApp(models.Model):
     app_name = models.CharField(max_length=256)
     reason = models.CharField(max_length=256)  # app reason / version reason
     ip_addr = models.CharField(max_length=256)
-    install_date = models.CharField(max_length=256)  # datekey format YYYYMMDD
+    install_date = models.CharField(max_length=256)  # date-key format YYYYMMDD
 
     def __str__(self):
         return f"{self.ip_addr}: {self.app_name}"
+
     class Meta:
         unique_together = ("app_name", "ip_addr")

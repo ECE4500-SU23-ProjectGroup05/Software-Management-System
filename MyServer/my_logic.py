@@ -1,6 +1,5 @@
 import os
 import csv
-import json
 import ipaddress
 
 from .models import WhiteList, UnauthorizedApp
