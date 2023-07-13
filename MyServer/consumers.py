@@ -133,7 +133,7 @@ class WebConsumer(WebsocketConsumer):
                     print("Receive an IP addr message from a web client.")
                     data = query_ip(IPv4_addr)
 
-                # export_query_result(data, IPv4_addr)
+                export_query_result(data, IPv4_addr)
                 self.send(json.dumps(data))
                 print("The result has been sent to the web client.")
 

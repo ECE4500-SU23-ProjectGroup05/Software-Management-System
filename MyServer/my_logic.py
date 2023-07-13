@@ -112,20 +112,23 @@ def export_query_result(data, filename):
     """
     The method reads the data of the comparison results from the database
     and exports the results as a local CSV file
-    :param data: the result data in dict format
+    :param data: the result in a list of dict
     :param filename: the name of the CSV file
     :return: nothing
     """
-    keys = data[0].keys() if data else []
-    filename = filename.replace('/', '~')
+    if len(data) == 0:
+        print("NOTICE: No clients on this IP.")
+        return
 
-    with open(filename, 'w', newline='') as csvfile:
+    keys = data[0].keys() if data else []
+    filename = filename.replace('/', '~') + ".csv"
+
+    with open(filename, 'w', newline='', encoding='gbk', errors='replace') as csvfile:
         writer = csv.DictWriter(csvfile, fieldnames=keys)
         writer.writeheader()
 
         for row in data:
             writer.writerow(row)
-    pass
 
 
 def send_message_to_group(group_name, message='DATA'):

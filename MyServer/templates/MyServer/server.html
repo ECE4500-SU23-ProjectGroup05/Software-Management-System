@@ -111,6 +111,8 @@
             const message = document.querySelector('#input');
             if (e.data === "PING, a web connection has established!") {
                 display.value += "Connection Established.\n\n";
+            } else if (e.data.length === 2) {
+                display.value += "No clients on this IP!" + "\n\n";
             } else {
                 display.value += e.data + "\n\n";
             }
