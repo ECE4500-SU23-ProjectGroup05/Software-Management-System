@@ -104,7 +104,7 @@ def query_ip_with_mask(input_IP):
         ip_addr_num = int(ipaddress.ip_network(data.ip_addr).network_address)
         if end_ip >= ip_addr_num >= start_ip:
             data_dict = model_to_dict(data)
-            result.append(data)
+            result.append(data_dict)
     return result
 
 
