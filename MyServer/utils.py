@@ -4,9 +4,11 @@ import ipaddress
 
 from .models import WhiteList, UnauthorizedApp
 from django.forms.models import model_to_dict
+from django.contrib.auth.models import User
 
 from server_side.settings import BASE_DIR
 from channels.layers import get_channel_layer
+from MyEmail.email_sending import send_email
 
 # Global variable that stores the black and white list.
 OFFICIAL_DATA = {}
@@ -149,6 +151,20 @@ class MyTools:
                 'message': message
             }
         )
+
+    @staticmethod
+    def send_email_to_user(filename):
+        """
+        Send an email attached with .csv file to all users.
+        :return:
+        """
+        csv_name = filename.replace('/', '~') + ".csv"
+        users = User.objects.all()
+
+        for user in users:
+            user_email = user.email
+            send_email(receiver=user_email, csv_name=csv_name)
+        print("NOTICE: A notification email has been sent to all users.")
 
 
 tools = MyTools()
