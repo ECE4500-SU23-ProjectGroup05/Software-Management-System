@@ -1,10 +1,7 @@
 import json
 
 from channels.generic.websocket import WebsocketConsumer
-
-from MyServer.my_logic import OFFICIAL_DATA, CLIENTS_ID, \
-    read_black_white_list, query_ip, query_ip_with_mask, \
-    export_query_result, send_message_to_group, compare_all
+from .utils import OFFICIAL_DATA, CLIENTS_ID, tools
 from .models import UnauthorizedApp
 
 
@@ -92,8 +89,8 @@ class MyConsumer(WebsocketConsumer):
                 'Install_date': app_data['Install date']
             }
             new_client_app[app_name] = client_data
-        read_black_white_list()
-        return compare_all(new_client_app, self.client_ip, OFFICIAL_DATA)
+        tools.read_black_white_list()
+        return tools.compare_all(new_client_app, self.client_ip, OFFICIAL_DATA)
 
     def web_message(self, event):
         message = event.get('message')
@@ -124,16 +121,16 @@ class WebConsumer(WebsocketConsumer):
                 IPv4_addr = parsed_data["message"]
                 if IPv4_addr == '0.0.0.0':
                     print("Receive a '0.0.0.0' message from a web client.")
-                    send_message_to_group('clients', 'DATA')
-                    data = query_ip(IPv4_addr)
+                    tools.send_message_to_group('clients', 'DATA')
+                    data = tools.query_ip(IPv4_addr)
                 elif '/' in IPv4_addr:
                     print("Receive an 'xx/oo' message from a web client.")
-                    data = query_ip_with_mask(IPv4_addr)
+                    data = tools.query_ip_with_mask(IPv4_addr)
                 else:
                     print("Receive an IP addr message from a web client.")
-                    data = query_ip(IPv4_addr)
+                    data = tools.query_ip(IPv4_addr)
 
-                export_query_result(data, IPv4_addr)
+                tools.export_query_result(data, IPv4_addr)
                 self.send(json.dumps(data))
                 print("The result has been sent to the web client.")
 
