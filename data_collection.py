@@ -3,6 +3,8 @@ import uuid
 import winreg
 import socket
 
+from datetime import datetime as dt
+
 
 def get_installed_software():
     """
@@ -31,6 +33,11 @@ def get_installed_helper(access):
     _query_name = ['DisplayVersion', 'Publisher', 'InstallDate',
                    'InstallLocation', 'UninstallString']
 
+    # Date and time in format "YYYYMMDD", "YYYY/MM/DD", or "YYYY年MM月DD日"
+    time_str_format1 = "%Y%m%d"
+    time_str_format2 = "%Y/%m/%d"
+    time_str_format3 = "%Y\u5e74%m\u6708%d\u65e5"
+
     try:
         _reg = winreg.ConnectRegistry(None, winreg.HKEY_LOCAL_MACHINE)
         _key = winreg.OpenKey(_reg, _subkey_str, 0, winreg.KEY_READ | access)
@@ -53,6 +60,17 @@ def get_installed_helper(access):
                 for _query, _value in zip(_query_info, _query_name):
                     try:
                         _software[_query] = winreg.QueryValueEx(_subkey, _value)[0]
+                        if _query == "Install date":
+                            if '\u5e74' in _software[_query]:
+                                timestamp = dt.strptime(_software[_query],
+                                                        time_str_format3).timestamp()
+                            elif '/' in _software[_query]:
+                                timestamp = dt.strptime(_software[_query],
+                                                        time_str_format2).timestamp()
+                            else:
+                                timestamp = dt.strptime(_software[_query],
+                                                        time_str_format1).timestamp()
+                            _software[_query] = str(timestamp)
                     except EnvironmentError:
                         _software[_query] = 'Undefined'
                     finally:
