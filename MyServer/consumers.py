@@ -133,7 +133,8 @@ class WebConsumer(WebsocketConsumer):
                 tools.export_query_result(data, IPv4_addr)
                 self.send(json.dumps(data))
                 print("The result has been sent to the web client.")
-                tools.send_email_to_user(IPv4_addr)
+                specialized_info = {"unauthorized": len(data)}
+                tools.send_email_to_user(IPv4_addr, specialized_info)
 
                 # TODO: complete the following feature if possible
                 # Include number of app on the black list, not on list, etc.

@@ -29,9 +29,10 @@ def _read_settings():
     return settings
 
 
-def _create_notification_template():
+def _create_notification_template(text=None):
     """
-    Create the email template
+    Create the email template with given text
+    :param text the specialized html text
     :return: a message object
     """
     subject = "Notification of Comparison Result | Testing"
@@ -45,9 +46,12 @@ def _create_notification_template():
     _message["From"] = _config["sender"]
     _message["Subject"] = subject
 
-    text_file = "./MyEmail/email_template.html"
-    with open(text_file, "r") as body:
-        html_text = body.read()
+    if text is None:
+        text_file = "./MyEmail/email_template.html"
+        with open(text_file, "r") as body:
+            html_text = body.read()
+    else:
+        html_text = text
 
     msgAlternative = MIMEMultipart('alternative')
     _message.attach(msgAlternative)
@@ -93,15 +97,25 @@ def _create_notification_template():
     return _message
 
 
-def send_email(receiver, csv_name):
+def send_email(receiver, csv_name, data=None):
     """
     Send the html style email to the receiver
     :param receiver: the receiver email
     :param csv_name: the csv file to send
+    :param data: the specialized data in the dict form of
+                 {
+                    "unauthorized": value,
+                    "key": value
+                 }
     :return: nothing
     """
     relative_path = "./"
     filename = relative_path + csv_name
+
+    if data is None:
+        _message = message
+    else:
+        _message = _create_specialized_email(csv_name, data)
 
     # Open csv file in binary mode
     try:
@@ -124,11 +138,11 @@ def send_email(receiver, csv_name):
     )
 
     # Add attachment to message
-    message["To"] = receiver
-    message.attach(payload)
+    _message["To"] = receiver
+    _message.attach(payload)
 
     # Convert message to string
-    final_text = message.as_string()
+    final_text = _message.as_string()
 
     try:
         # Create a secure SSL context
@@ -142,9 +156,47 @@ def send_email(receiver, csv_name):
         print(e)
 
     finally:
-        for payload in message.get_payload():
+        for payload in _message.get_payload():
             if payload.get_content_type() == "application/octet-stream":
-                message.get_payload().remove(payload)
+                _message.get_payload().remove(payload)
+
+
+def _create_specialized_email(csv_name, data):
+    """
+    Create the specialized html style email
+    :param csv_name: the csv file to send
+    :param data: the specialized data in the dict form of
+                 {
+                    "unauthorized": value,
+                    "key": value
+                 }
+    :return: nothing
+    """
+
+    specialized_text = f"""\
+  <div style="font-size: 14px; line-height: 140%; text-align: left; word-wrap: break-word;">
+<p style="font-size: 14px; line-height: 140%;"><span style="font-size: 18px; line-height: 25.2px; color: #666666;">Hello,</span></p>
+<p style="font-size: 14px; line-height: 140%;"> <br></p>
+<p style="font-size: 14px; line-height: 140%;"><span style="font-size: 18px; line-height: 25.2px; color: #666666;">We have sent you this email in response to your request to find the unauthorized software on your client.</span></p>
+<p style="font-size: 14px; line-height: 140%;"> <br></p>
+<p style="font-size: 14px; line-height: 140%;"><span style="font-size: 18px; line-height: 25.2px; color: #666666;">According to the black/white list you provided, we detect that the client(s) on {csv_name[:-4]} has installed {data["unauthorized"]} unauthorized apps.</span></p>
+<p style="font-size: 14px; line-height: 140%;"> <br></p>
+<p style="font-size: 14px; line-height: 140%;"><span style="font-size: 18px; line-height: 25.2px; color: #666666;">For details, please refer to the attached csv file.</span></p>
+  </div>
+
+    """
+    html_text = ""
+    text_file = "./MyEmail/email_template_op.html"
+    with open(text_file, "r") as body:
+        html_text += body.read()
+
+    html_text += specialized_text
+
+    text_file = "./MyEmail/email_template_ed.html"
+    with open(text_file, "r") as body:
+        html_text += body.read()
+
+    return _create_notification_template(html_text)
 
 
 _config = _read_settings()

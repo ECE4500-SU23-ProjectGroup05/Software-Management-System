@@ -153,17 +153,25 @@ class MyTools:
         )
 
     @staticmethod
-    def send_email_to_user(filename):
+    def send_email_to_user(filename, data=None):
         """
-        Send an email attached with .csv file to all users.
-        :return:
+        Send an email attached with one file to all users
+        CAUTION: DO NOT INCLUDE INVALID CHAR IN THE FILENAME
+        :param filename: the filename without '.csv', etc.
+        :param data: the specialized data in the dict form of
+             {
+                "unauthorized": value,
+                "key": value
+             }
+        :return: nothing
         """
         csv_name = filename.replace('/', '~') + ".csv"
         users = User.objects.all()
 
         for user in users:
             user_email = user.email
-            send_email(receiver=user_email, csv_name=csv_name)
+            send_email(receiver=user_email, csv_name=csv_name, data=data)
+
         print("NOTICE: A notification email has been sent to all users.")
 
 
