@@ -6,3 +6,6 @@ port: 8000
 
 # Update interval in hours
 time: 0.0025  # 9s for testing
+
+# Reconnection interval in seconds
+reconnect: 5  # 5s for testing

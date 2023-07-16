@@ -28,10 +28,11 @@ class Communication:
         self.websocket = None
         self.running = True
 
-    def connect_server(self, actions):
+    def connect_server(self, actions, rc_time=15):
         """
         Continuously establishing connection with the server
         :param actions: a function to execute
+        :param rc_time: interval to reconnect to the server if disconnected
         :return: nothing
         """
         while True:
@@ -56,14 +57,14 @@ class Communication:
                 actions()
 
             except ConnectionResetError:
-                print('Connection Reset. Reconnecting in 5 seconds...')
+                print('Connection Reset. Reconnecting in ' + str(rc_time) + ' seconds...')
                 self.running = True
-                time.sleep(5)
+                time.sleep(rc_time)
 
             except ConnectionRefusedError:
-                print('Connection Refused. Reconnecting in 15 seconds...')
+                print('Connection Refused. Reconnecting in ' + str(rc_time) + ' seconds...')
                 self.running = True
-                time.sleep(15)
+                time.sleep(rc_time)
 
     def timed_communication(self):
         """
