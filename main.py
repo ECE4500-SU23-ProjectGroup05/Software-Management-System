@@ -70,19 +70,23 @@ def setup(_icon):
 
 
 def run_main():
+    global settings
     try:
         settings = config.read_settings()
         websocket_url = "ws://" + str(settings["server-IP"]) \
                         + ":" + str(settings["port"]) + "/ws/socket-server/"
         print("=== The client is now running ===")
+        if not settings["display"]:
+            win_handler.minimize_to_tray()
         communicator = communication.Communication(websocket_url, settings["time"])
         communicator.connect_server(communicator.bidirectional_communication, settings["reconnect"])
     except Exception as _e:
         exception_q.put(_e)
 
 
-exception_q = queue.Queue()
+global settings
 
+exception_q = queue.Queue()
 win_handler = WinHandle()
 
 menu = (MenuItem('Menu', on_click, default=True, visible=False),

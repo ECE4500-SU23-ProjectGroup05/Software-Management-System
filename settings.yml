@@ -4,8 +4,11 @@ server-IP: 127.0.0.1
 # The port
 port: 8000
 
-# Update interval in hours
+# Update interval in hours (`time: -1` means not to update)
 time: -1  # 90s for testing
 
 # Reconnection interval in seconds
 reconnect: 5  # 5s for testing
+
+# Display the interface when opened
+display: True
