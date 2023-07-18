@@ -26,18 +26,32 @@ class Communication:
         self.time = break_time
         self.client_data = None
         self.websocket = None
+        self.connect = False
         self.running = True
+        if not break_time > 0 and break_time is not -1:
+            print("CAUTION: You set an invalid negative update interval.")
+            print("         The timed communication is thus disabled.")
+            self.time = -1
+        if 0 <= break_time < 1:
+            print("CAUTION: You set a frequent update interval.")
+            print("SUGGEST: Please change it in the settings.")
 
-    def connect_server(self, actions):
+    def connect_server(self, actions, rc_time=15):
         """
-        Continuously establishing connection with the server
-        :param actions: a function to execute
+        Establishing connection with the server. If disconnected, it will try
+        to establish connection continuously
+        :param actions: a function to execute after connection
+        :param rc_time: interval to reconnect to the server if disconnected
         :return: nothing
         """
         while True:
             try:
+                if self.connect:
+                    return
+
                 ws = websocket.create_connection(self.ws_url)
                 print('WebSockets connection established.')
+                self.connect = True
 
                 self.mac_address = data_collection.get_mac_addr()
                 self.client_ip = data_collection.get_router_ip()
@@ -56,14 +70,16 @@ class Communication:
                 actions()
 
             except ConnectionResetError:
-                print('Connection Reset. Reconnecting in 5 seconds...')
+                self.connect = False
+                print('Connection Reset. Reconnecting in ' + str(rc_time) + ' seconds...')
                 self.running = True
-                time.sleep(5)
+                time.sleep(rc_time)
 
             except ConnectionRefusedError:
-                print('Connection Refused. Reconnecting in 15 seconds...')
+                self.connect = False
+                print('Connection Refused. Reconnecting in ' + str(rc_time) + ' seconds...')
                 self.running = True
-                time.sleep(15)
+                time.sleep(rc_time)
 
     def timed_communication(self):
         """
@@ -72,6 +88,12 @@ class Communication:
         :return: nothing
         """
         self._test_connection()
+        if self.time == -1:
+            print("CAUTION: You have disabled the timed communication function "
+                  "in the settings.")
+            print("         You have to manually check for update on server "
+                  "as a result.")
+            return
         while self.running:
             self._send_software_info()
             utils.sleep_for_some_time(self.time)
@@ -152,7 +174,7 @@ class Communication:
                 raise exception[0]
             except queue.Empty:
                 # Continue with other tasks if no exception
-                pass
+                time.sleep(1)
 
     def _test_connection(self):
         if self.websocket is None:
