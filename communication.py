@@ -26,6 +26,7 @@ class Communication:
         self.time = break_time
         self.client_data = None
         self.websocket = None
+        self.connect = False
         self.running = True
         if not break_time > 0 and break_time is not -1:
             print("CAUTION: You set an invalid negative update interval.")
@@ -37,15 +38,20 @@ class Communication:
 
     def connect_server(self, actions, rc_time=15):
         """
-        Continuously establishing connection with the server
-        :param actions: a function to execute
+        Establishing connection with the server. If disconnected, it will try
+        to establish connection continuously
+        :param actions: a function to execute after connection
         :param rc_time: interval to reconnect to the server if disconnected
         :return: nothing
         """
         while True:
             try:
+                if self.connect:
+                    return
+
                 ws = websocket.create_connection(self.ws_url)
                 print('WebSockets connection established.')
+                self.connect = True
 
                 self.mac_address = data_collection.get_mac_addr()
                 self.client_ip = data_collection.get_router_ip()
@@ -64,11 +70,13 @@ class Communication:
                 actions()
 
             except ConnectionResetError:
+                self.connect = False
                 print('Connection Reset. Reconnecting in ' + str(rc_time) + ' seconds...')
                 self.running = True
                 time.sleep(rc_time)
 
             except ConnectionRefusedError:
+                self.connect = False
                 print('Connection Refused. Reconnecting in ' + str(rc_time) + ' seconds...')
                 self.running = True
                 time.sleep(rc_time)
