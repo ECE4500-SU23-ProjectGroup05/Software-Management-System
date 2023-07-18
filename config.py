@@ -15,12 +15,9 @@ def read_settings():
     try:
         with open(filepath) as fin:
             settings = yaml.load(fin, Loader=yaml.FullLoader)
-        print("=== The client is now running ===")
 
     except FileNotFoundError as error:
         print(error)
-        print("NOTICE: Error occurs. The program will end in 5 seconds...")
-        time.sleep(5)
         raise error
 
     return settings
