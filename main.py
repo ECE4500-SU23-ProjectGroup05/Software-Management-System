@@ -1,4 +1,5 @@
 import sys
+import time
 import config
 import win32con
 import win32gui
@@ -48,7 +49,7 @@ def setup(_icon):
     thread.start()
 
     while icon.visible:
-        pass
+        time.sleep(0.1)
 
     sys.exit(0)
 

@@ -27,6 +27,13 @@ class Communication:
         self.client_data = None
         self.websocket = None
         self.running = True
+        if not break_time > 0 and break_time is not -1:
+            print("CAUTION: You set an invalid negative update interval.")
+            print("         The timed communication is thus disabled.")
+            self.time = -1
+        if 0 <= break_time < 1:
+            print("CAUTION: You set a frequent update interval.")
+            print("SUGGEST: Please change it in the settings.")
 
     def connect_server(self, actions, rc_time=15):
         """
@@ -73,6 +80,12 @@ class Communication:
         :return: nothing
         """
         self._test_connection()
+        if self.time == -1:
+            print("CAUTION: You have disabled the timed communication function "
+                  "in the settings.")
+            print("         You have to manually check for update on server "
+                  "as a result.")
+            return
         while self.running:
             self._send_software_info()
             utils.sleep_for_some_time(self.time)
@@ -153,7 +166,7 @@ class Communication:
                 raise exception[0]
             except queue.Empty:
                 # Continue with other tasks if no exception
-                pass
+                time.sleep(1)
 
     def _test_connection(self):
         if self.websocket is None:
