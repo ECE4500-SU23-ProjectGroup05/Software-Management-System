@@ -19,7 +19,8 @@ def read_settings():
 
     except FileNotFoundError as error:
         print(error)
-        print("NOTICE: Error occurs. The program will end in 9 seconds...")
-        time.sleep(9), exit(2)
+        print("NOTICE: Error occurs. The program will end in 5 seconds...")
+        time.sleep(5)
+        raise error
 
     return settings
