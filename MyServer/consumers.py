@@ -1,4 +1,5 @@
 import json
+import random
 
 from channels.generic.websocket import WebsocketConsumer
 from .utils import OFFICIAL_DATA, CLIENTS_ID, tools
@@ -131,9 +132,12 @@ class WebConsumer(WebsocketConsumer):
                     data = tools.query_ip(IPv4_addr)
 
                 tools.export_query_result(data, IPv4_addr)
+
+                specialized_info = {"unauthorized": len(data)}
+                data = random.sample(data, 10)
                 self.send(json.dumps(data))
                 print("The result has been sent to the web client.")
-                specialized_info = {"unauthorized": len(data)}
+
                 tools.send_email_to_user(IPv4_addr, specialized_info)
 
                 # TODO: complete the following feature if possible

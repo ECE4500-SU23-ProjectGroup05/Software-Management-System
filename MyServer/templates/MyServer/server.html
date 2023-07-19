@@ -28,7 +28,7 @@
         <div class="col-3">
             <form>
                 <!-- Content of the page -->
-                <label for="search-history" class="h4 pt-5">查询记录</label>
+                <label for="search-history" class="h4 pt-5">History</label>
                 <textarea class="form-control"
                           id="search-history" readonly rows="12"></textarea>
 
@@ -38,11 +38,11 @@
                        id="input" type="text"><br> <!-- ALL = 0.0.0.0 -->
 
                 <input class="btn btn-primary btn-lg btn-block"
-                       id="submit" type="button" value="确认查询">
+                       id="submit" type="button" value="Confirm">
             </form>
         </div>
         <div class="col-8">
-            <label for="display-board" class="h4 pt-5">查询结果</label>
+            <label for="display-board" class="h4 pt-5">Query Result</label>
             <textarea class="form-control"
                       id="display-board" readonly rows="17"></textarea><br>
         </div>
@@ -114,7 +114,8 @@
             } else if (e.data.length === 2) {
                 display.value += "No clients on this IP!" + "\n\n";
             } else {
-                display.value += e.data + "\n\n";
+                display.value += e.data.substring(0, e.data.length-1) + ", ...\n\n";
+                display.value += "Please refer to the .csv file for details.\n\n";
             }
             message.disabled = false;
         };
