@@ -126,6 +126,7 @@ def send_email(receiver, csv_name, data=None):
 
     except FileNotFoundError:
         print("No such file or directory: " + csv_name)
+        print("NOTICE: Email sending is aborted.")
         return
 
     # Encode file in ASCII characters to send by email
@@ -152,8 +153,11 @@ def send_email(receiver, csv_name, data=None):
             server.login(_config["sender"], _config["pwd"])
             server.sendmail(_config["sender"], receiver, final_text)
 
+        print("NOTICE: A notification email has been sent to all users.")
+
     except Exception as e:
         print(e)
+        print("NOTICE: Email sending is aborted.")
 
     finally:
         for payload in _message.get_payload():

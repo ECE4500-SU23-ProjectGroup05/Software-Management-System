@@ -172,8 +172,6 @@ class MyTools:
             user_email = user.email
             send_email(receiver=user_email, csv_name=csv_name, data=data)
 
-        print("NOTICE: A notification email has been sent to all users.")
-
 
 tools = MyTools()
 tools.read_black_white_list()
