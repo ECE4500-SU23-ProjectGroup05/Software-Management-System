@@ -4,7 +4,7 @@
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
-    <title>Server</title>
+    <title>Server (Guest Mode)</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1,
     user-scalable=0, shrink-to-fit=no">
 
@@ -14,23 +14,31 @@
           integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N"
           crossorigin="anonymous">
     <style>
+        .login-link {position: absolute; top: 12px; right: 10px; transform: translate(-50%, 0);}
+        .fixed-heading {position: fixed; top: 0; left: 0; width: 100%; background-color: #f5f5f5;
+                        padding: 12px; text-align: left; }
         .container {display: flex; overflow-x: auto; white-space: nowrap;}
         .col-3 {flex: 1; padding: 20px;}
-        .col-8 {flex: 1; padding: 20px;}
-        #search-history {height: 288px; font-family: Consolas, monospace;}
-        #display-board {height: 422px; font-family: Consolas, monospace;}
+        .col-9 {flex: 1; padding: 20px;}
+        #search-history {height: 318px; font-family: Consolas, monospace;}
+        #display-board {height: 452px; font-family: Consolas, monospace;}
     </style>
 </head>
 
-<body>
+<body class="bg-image" style="background-image: url(https://i.postimg.cc/VsHVvVvQ/background001.jpg);
+    background-repeat: no-repeat;">
     <!-- HTML Part -->
+    <h3 class="fixed-heading"><font color="#808080">SOFTWARE MONITORING & MANAGEMENT SYSTEM</font></h3>
+    <div class="login-link">
+        <a href="http://127.0.0.1:8000/admin/">Log in</a>
+    </div>
     <div class="container">
         <div class="col-3">
             <form>
                 <!-- Content of the page -->
-                <label for="search-history" class="h4 pt-5">History</label>
+                <label for="search-history" class="h4 pt-5"><font color="white">Search History</font></label>
                 <textarea class="form-control"
-                          id="search-history" readonly rows="12"></textarea>
+                          id="search-history" readonly rows="13"></textarea>
 
                 <label for="input"></label>
                 <input class="form-control"
@@ -41,19 +49,16 @@
                        id="submit" type="button" value="Confirm">
             </form>
         </div>
-        <div class="col-8">
-            <label for="display-board" class="h4 pt-5">Query Result</label>
+        <div class="col-9">
+            <label for="display-board" class="h4 pt-5"><font color="white">Guest Mode User Interface</font>
+                <font color="#4169e1"> = Login For Details = </font></label>
             <textarea class="form-control"
-                      id="display-board" readonly rows="17"></textarea><br>
+                      id="display-board" readonly rows="18"></textarea><br>
         </div>
     </div>
 
     <!-- JavaScript -->
     <script type="text/javascript">
-        // Open a websocket to the backend
-        const querySocket = new WebSocket(
-            `ws://${window.location.host}/web-server`
-        );
 
         function handleKeyPress(event) {
             // Handle the ENTER keypress
@@ -85,40 +90,68 @@
         document.querySelector('#submit').onclick = function () {
             // Send message to the backend
             if (message.disabled === false) {
+                display.value += message.value + "\n";
                 // Test the IP address pattern
-                if (pattern.test(message.value))
-                    display.value += "Correct IPv4 address!\n\n"
+                if (pattern.test(message.value)) {
+                    display.value += "server@uaes: Correct IPv4 address.\n";
+                    display.value += "             Searching for client IP: " + message.value + "\n";
+                    // Add message to the history
+                    history.value += "IP: " + message.value + "\n";
+                    display.value += "             Please wait a second. :)\n";
+                }
                 else {
-                    display.value += "Invalid IPv4 address!\n\n"
+                    display.value += "server@uaes: Invalid IPv4 address!\n";
+                    display.value += "guests@uaes: "
                     return;
                 }
                 // Send input text to the backend
                 querySocket.send(JSON.stringify({
                     'message': message.value,
                 }));
-                // Add message to the history
-                const queryMessage = "Searching for client IP:\n" + message.value
-                    + "\n" + "Please wait a second. :)\n\n";
-                history.value += queryMessage;
                 // Clear and disable the message input box
                 message.value = "";
                 message.disabled = true;
             }
         };
 
+        // Open a websocket to the backend
+        const querySocket = new WebSocket(
+            `ws://${window.location.host}/web-server`
+        );
+
         // Handle websocket connection
+        querySocket.onopen = function (e) {
+            display.value += "server@uaes: Connection Established.\n";
+            display.value += "guests@uaes: ";
+        }
+
         querySocket.onmessage = function (e) {
             const message = document.querySelector('#input');
-            if (e.data === "PING, a web connection has established!") {
-                display.value += "Connection Established.\n\n";
-            } else if (e.data.length === 2) {
-                display.value += "No clients on this IP!" + "\n\n";
-            } else {
-                display.value += e.data.substring(0, e.data.length-1) + ", ...\n\n";
-                display.value += "Please refer to the .csv file for details.\n\n";
+            if (e.data.length === 2) {
+                display.value += "server@uaes: No client on this IP!" + "\n";
+                display.value += "guests@uaes: "
+            }
+            else {
+                let str_length = e.data.length - 1
+                if (str_length > 300)
+                    str_length = 300
+                display.value += "server@uaes: " + e.data.substring(0, str_length) + " ...\n";
+                display.value += "server@uaes: Please refer to the .csv file for details.\n";
+                display.value += "guests@uaes: "
             }
             message.disabled = false;
         };
+
+        querySocket.onerror = function (e) {
+            display.value += "\nserver@uaes: Connection Error Occurred. Please refresh the page.\n";
+            message.disabled = true;
+        }
+
+        querySocket.onclose = function (e) {
+            display.value += "\nserver@uaes: Connection Closed. Please refresh the page.\n";
+            message.disabled = true;
+        }
+
     </script>
 
 </body>
