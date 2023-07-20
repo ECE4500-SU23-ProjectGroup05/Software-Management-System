@@ -169,7 +169,7 @@ def send_email(receiver, csv_name, data=None):
             server.login(_config["sender"], _config["pwd"])
             server.sendmail(_config["sender"], receiver, final_text)
 
-        print("NOTICE: A notification email has been sent to all users.")
+        print(f"NOTICE: A notification email has been sent to the user: {receiver}.")
 
     except Exception as e:
         print(e)
