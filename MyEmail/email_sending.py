@@ -42,16 +42,32 @@ def _create_notification_template(text=None):
                 "find the unauthorized software on your client.\n\n" \
                 "For details, please refer to the attached csv file."
 
+    html_text = ""
+
+    html_text_default = """\
+  <div style="font-size: 14px; line-height: 140%; text-align: left; word-wrap: break-word;">
+<p style="font-size: 14px; line-height: 140%;"><span style="font-size: 18px; line-height: 25.2px; color: #666666;">Hello,</span></p>
+<p style="font-size: 14px; line-height: 140%;"> <br></p>
+<p style="font-size: 14px; line-height: 140%;"><span style="font-size: 18px; line-height: 25.2px; color: #666666;">We have sent you this email in response to your request to find the unauthorized software on your client.</span></p>
+<p style="font-size: 14px; line-height: 140%;"> <br></p>
+<p style="font-size: 14px; line-height: 140%;"><span style="font-size: 18px; line-height: 25.2px; color: #666666;">For details, please refer to the attached csv file.</span></p>
+  </div>
+  
+    """
+
     _message = MIMEMultipart("mixed")
     _message["From"] = _config["sender"]
     _message["Subject"] = subject
 
-    if text is None:
-        text_file = "./MyEmail/email_template.html"
-        with open(text_file, "r") as body:
-            html_text = body.read()
-    else:
-        html_text = text
+    text_file = "./MyEmail/email_template_op.html"
+    with open(text_file, "r") as body:
+        html_text += body.read()
+
+    html_text += html_text_default if text is None else text
+
+    text_file = "./MyEmail/email_template_ed.html"
+    with open(text_file, "r") as body:
+        html_text += body.read()
 
     msgAlternative = MIMEMultipart('alternative')
     _message.attach(msgAlternative)
@@ -189,18 +205,7 @@ def _create_specialized_email(csv_name, data):
   </div>
 
     """
-    html_text = ""
-    text_file = "./MyEmail/email_template_op.html"
-    with open(text_file, "r") as body:
-        html_text += body.read()
-
-    html_text += specialized_text
-
-    text_file = "./MyEmail/email_template_ed.html"
-    with open(text_file, "r") as body:
-        html_text += body.read()
-
-    return _create_notification_template(html_text)
+    return _create_notification_template(specialized_text)
 
 
 _config = _read_settings()
