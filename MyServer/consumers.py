@@ -132,7 +132,7 @@ class WebConsumer(WebsocketConsumer):
                 tools.export_query_result(data, IPv4_addr)
 
                 specialized_info = {"unauthorized": len(data)}
-                self.send(json.dumps(data))
+                self.send(json.dumps(data, ensure_ascii=False))
                 print("The result has been sent to the web client.")
 
                 tools.send_email_to_user(IPv4_addr, specialized_info)

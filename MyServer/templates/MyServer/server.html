@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-cmn-Hans">
 
 <head>
     <!-- Required meta tags -->
@@ -14,7 +14,7 @@
           integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N"
           crossorigin="anonymous">
     <style>
-        .login-link {position: absolute; top: 12px; right: 10px; transform: translate(-50%, 0);}
+        .login-link {position: absolute; top: 12px; right: 10px; transform: translate(-10%, 0);}
         .fixed-heading {position: fixed; top: 0; left: 0; width: 100%; background-color: #f5f5f5;
                         padding: 12px; text-align: left; }
         .container {display: flex; overflow-x: auto; white-space: nowrap;}
@@ -136,7 +136,7 @@
                 if (str_length > 300)
                     str_length = 300
                 display.value += "server@uaes: " + e.data.substring(0, str_length) + " ...\n";
-                display.value += "server@uaes: Please refer to the .csv file for details.\n";
+                display.value += "server@uaes: Please log in and refer to the .csv file for details.\n";
                 display.value += "guests@uaes: "
             }
             message.disabled = false;
