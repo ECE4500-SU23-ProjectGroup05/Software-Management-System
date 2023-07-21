@@ -192,14 +192,14 @@ def _create_specialized_email(csv_name, data):
                  }
     :return: nothing
     """
-
+    ip_addr = csv_name[:-4].replace('~', '/')
     specialized_text = f"""\
   <div style="font-size: 14px; line-height: 140%; text-align: left; word-wrap: break-word;">
 <p style="font-size: 14px; line-height: 140%;"><span style="font-size: 18px; line-height: 25.2px; color: #666666;">Hello,</span></p>
 <p style="font-size: 14px; line-height: 140%;"> <br></p>
 <p style="font-size: 14px; line-height: 140%;"><span style="font-size: 18px; line-height: 25.2px; color: #666666;">We have sent you this email in response to your request to find the unauthorized software on your client.</span></p>
 <p style="font-size: 14px; line-height: 140%;"> <br></p>
-<p style="font-size: 14px; line-height: 140%;"><span style="font-size: 18px; line-height: 25.2px; color: #666666;">According to the black/white list you provided, we detect that the client(s) on {csv_name[:-4]} has installed {data["unauthorized"]} unauthorized apps.</span></p>
+<p style="font-size: 14px; line-height: 140%;"><span style="font-size: 18px; line-height: 25.2px; color: #666666;">According to the black/white list you provided, we detect that the client(s) on {ip_addr} has installed {data["unauthorized"]} unauthorized apps.</span></p>
 <p style="font-size: 14px; line-height: 140%;"> <br></p>
 <p style="font-size: 14px; line-height: 140%;"><span style="font-size: 18px; line-height: 25.2px; color: #666666;">For details, please refer to the attached csv file.</span></p>
   </div>
