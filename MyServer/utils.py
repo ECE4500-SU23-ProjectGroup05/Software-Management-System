@@ -1,5 +1,6 @@
 import os
 import csv
+import datetime
 import ipaddress
 
 from .models import WhiteList, UnauthorizedApp
@@ -173,6 +174,16 @@ class MyTools:
         for user in users:
             user_email = user.email
             send_email(receiver=user_email, csv_name=csv_name, data=data)
+
+    @staticmethod
+    def timestamp_to_date(timestamp):
+        # Convert the timestamp to a datetime object
+        dt_object = datetime.datetime.fromtimestamp(timestamp)
+
+        # Format the datetime object to a desired date format
+        formatted_date = dt_object.strftime('%Y-%m-%d')  # Change the format
+
+        return formatted_date
 
 
 tools = MyTools()
