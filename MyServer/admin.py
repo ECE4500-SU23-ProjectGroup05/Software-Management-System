@@ -1,9 +1,14 @@
 from django.contrib import admin
 from .models import WhiteList, UnauthorizedApp
-
+from import_export.admin import ImportExportModelAdmin, ImportExportActionModelAdmin
+from import_export.formats import base_formats
+from .resources import UnauthorizedAppResource
 # Register your models here.
 
-# TODO: Delete UnauthorizedApp after test
+class UnauthorizedAppAdmin(ImportExportActionModelAdmin,ImportExportModelAdmin):
+    formats = [base_formats.CSV]
+    resource_class = UnauthorizedAppResource
+
 
 admin.site.register(WhiteList)
-admin.site.register(UnauthorizedApp)
+admin.site.register(UnauthorizedApp, UnauthorizedAppAdmin)
