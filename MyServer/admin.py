@@ -16,7 +16,7 @@ class UnauthorizedAppAdmin(ExportActionModelAdmin, admin.ModelAdmin):
 
     def has_add_permission(self, request):
         return False
-    
+
     @admin.action(description="update unauthorized app list")
     def update_database(self, request, queryset):
         tools.read_black_white_list()
@@ -32,7 +32,6 @@ class WhiteListAdmin(ExportActionModelAdmin, admin.ModelAdmin):
     @admin.action(description="update unauthorized app list")
     def update_database(self, request, queryset):
         tools.read_black_white_list()
-        
 
 
 admin.site.register(WhiteList, WhiteListAdmin)
