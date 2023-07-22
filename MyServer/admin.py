@@ -5,9 +5,10 @@ from import_export.formats import base_formats
 from .resources import UnauthorizedAppResource
 # Register your models here.
 
-class UnauthorizedAppAdmin(ImportExportActionModelAdmin,ImportExportModelAdmin):
+class UnauthorizedAppAdmin(ImportExportActionModelAdmin,ImportExportModelAdmin,admin.ModelAdmin):
     formats = [base_formats.CSV]
     resource_class = UnauthorizedAppResource
+    search_fields = ['app_name','ip_addr']
 
 
 admin.site.register(WhiteList)
