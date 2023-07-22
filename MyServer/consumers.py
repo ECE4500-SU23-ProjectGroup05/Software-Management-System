@@ -44,70 +44,21 @@ class MyConsumer(WebsocketConsumer):
                 CLIENTS_ID.add(self.client_mac)
                 self.send('DATA')
             elif parsed_data["status"] == "update":
-                # compare the data
                 result = self.compare_client_info(parsed_data)
+                self.store_compare_result(result, parsed_data["installed"])
 
-                # store compare result
-                for app_name, app_data in parsed_data["installed"].items():
-                    if app_name in result:
-                        database_data = UnauthorizedApp.objects.filter(app_name=app_name,
-                                                                       ip_addr=self.client_ip)
-                        if database_data.exists():
-                            UnauthorizedApp.objects.filter(app_name=app_name,ip_addr=self.client_ip).update(reason='unauthorized')
-                        else:
-                            new_row = UnauthorizedApp(app_name=app_name,
-                                                      reason="unauthorized",
-                                                      ip_addr=self.client_ip,
-                                                      install_date=app_data["Install_date"])
-                            new_row.save()
-                    else:
-                        database_data = UnauthorizedApp.objects.filter(app_name=app_name,
-                                                                       ip_addr=self.client_ip)
-                        if database_data.exists():
-                            UnauthorizedApp.objects.filter(app_name=app_name,ip_addr=self.client_ip).update(reason='authorized')
-                        else:
-                            new_row = UnauthorizedApp(app_name=app_name,
-                                                      reason="authorized",
-                                                      ip_addr=self.client_ip,
-                                                      install_date=app_data["Install_date"])
-                            new_row.save()
                 # delete uninstall app
                 for del_app_name in parsed_data["uninstalled"]:
                     UnauthorizedApp.objects.filter(app_name=del_app_name,
                                                    ip_addr=self.client_ip).delete()
 
                 print(result)
-                print("Notice: Comparison results has printed.")
+                print("Notice: Comparison results (update) has printed.")
             elif parsed_data['status'] == "new":
-                # compare the data
                 result = self.compare_client_info(parsed_data)
+                self.store_compare_result(result, parsed_data["installed"])
 
-                # store compare result
-                for app_name, app_data in parsed_data["installed"].items():
-                    if app_name in result:
-                        database_data = UnauthorizedApp.objects.filter(app_name=app_name,
-                                                                       ip_addr=self.client_ip)
-                        if database_data.exists():
-                            UnauthorizedApp.objects.filter(app_name=app_name,ip_addr=self.client_ip).update(reason='unauthorized')
-                        else:
-                            new_row = UnauthorizedApp(app_name=app_name,
-                                                      reason="unauthorized",
-                                                      ip_addr=self.client_ip,
-                                                      install_date=app_data["Install_date"])
-                            new_row.save()
-                    else:
-                        database_data = UnauthorizedApp.objects.filter(app_name=app_name,
-                                                                       ip_addr=self.client_ip)
-                        if database_data.exists():
-                            UnauthorizedApp.objects.filter(app_name=app_name,ip_addr=self.client_ip).update(reason='authorized')
-                        else:
-                            new_row = UnauthorizedApp(app_name=app_name,
-                                                      reason="authorized",
-                                                      ip_addr=self.client_ip,
-                                                      install_date=app_data["Install_date"])
-                            new_row.save()
-                        
-        
+                print("Notice: Comparison results (new) has printed.")
 
         except json.JSONDecodeError:
             print("The received client data is not in a valid JSON format.")
@@ -122,6 +73,33 @@ class MyConsumer(WebsocketConsumer):
             new_client_app[app_name] = client_data
         tools.read_black_white_list()
         return tools.compare_all(new_client_app, self.client_ip, OFFICIAL_DATA)
+
+    def store_compare_result(self, result, installed_app):
+        for app_name, app_data in installed_app.items():
+            if app_name in result:
+                database_data = UnauthorizedApp.objects.filter(app_name=app_name,
+                                                               ip_addr=self.client_ip)
+                if database_data.exists():
+                    UnauthorizedApp.objects.filter(app_name=app_name, ip_addr=self.client_ip).update(
+                        reason='unauthorized')
+                else:
+                    new_row = UnauthorizedApp(app_name=app_name,
+                                              reason="unauthorized",
+                                              ip_addr=self.client_ip,
+                                              install_date=app_data["Install_date"])
+                    new_row.save()
+            else:
+                database_data = UnauthorizedApp.objects.filter(app_name=app_name,
+                                                               ip_addr=self.client_ip)
+                if database_data.exists():
+                    UnauthorizedApp.objects.filter(app_name=app_name, ip_addr=self.client_ip).update(
+                        reason='authorized')
+                else:
+                    new_row = UnauthorizedApp(app_name=app_name,
+                                              reason="authorized",
+                                              ip_addr=self.client_ip,
+                                              install_date=app_data["Install_date"])
+                    new_row.save()
 
     def web_message(self, event):
         message = event.get('message')

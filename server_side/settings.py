@@ -178,6 +178,7 @@ JAZZMIN_SETTINGS = {
 
         # external url that opens in a new window (Permissions can be added)
         {"name": "Support", "url": "https://github.com/ECE4500-SU23-ProjectGroup05/Capstone-Design", "new_window": True},
+
         {"name": "Malware Detection", "url": "https://github.com/ECE4500-SU23-ProjectGroup05/mal_detection",
          "new_window": True},
 
