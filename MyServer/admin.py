@@ -11,9 +11,12 @@ class UnauthorizedAppAdmin(ExportActionModelAdmin, admin.ModelAdmin):
     formats = [base_formats.CSV]
     resource_class = UnauthorizedAppResource
     search_fields = ['app_name', 'ip_addr']
-    list_display = ['ip_addr', 'app_name', 'install_date']
+    list_display = ['ip_addr', 'app_name']
     actions = ['update_database']
 
+    def has_add_permission(self, request):
+        return False
+    
     @admin.action(description="update unauthorized app list")
     def update_database(self, request, queryset):
         tools.read_black_white_list()
