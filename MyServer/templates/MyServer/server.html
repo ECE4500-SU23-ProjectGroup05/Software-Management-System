@@ -5,62 +5,126 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <title>Server (Guest Mode)</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1,
-    user-scalable=0, shrink-to-fit=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet"
-          href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
-          integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N"
-          crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+
+    <link rel="icon" href='https://i.postimg.cc/qMpdbnB3/logo.png' />
+
     <style>
-        .login-link {position: absolute; top: 12px; right: 16px; transform: translate(-10%, 0);}
-        .fixed-heading {position: absolute; top: 0; left: 0; width: 100%; background-color: #f5f5f5;
-                        padding: 12px; text-align: left;}
-        .container {position: absolute; top: 6px; left: 42px; display: flex; white-space: nowrap;}
-        .col-3 {flex: 1; padding: 20px;}
-        .col-9 {flex: 1; padding: 20px;}
-        #search-history {height: 310px; font-family: Consolas, monospace;}
-        #display-board {height: 444px; font-family: Consolas, monospace;}
+        .login-link {
+            position: absolute;
+            top: 12px;
+            right: 16px;
+            transform: translate(-10%, 0);
+        }
+
+        .fixed-heading {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: #f5f5f5;
+            text-align: left;
+            padding: 10px;
+        }
+
+        .bg-image {
+            background-image: url('https://i.postimg.cc/mgywnvdb/background004.jpg');
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+
+        .container {
+            position: absolute;
+            top: 6px;
+            left: 42px;
+            white-space: nowrap;
+            display: flex;
+        }
+
+        .col-3,
+        .col-9 {
+            flex: 1;
+            padding: 20px;
+        }
+
+        #search-history {
+            height: 310px;
+            font-family: Consolas, monospace;
+        }
+
+        #display-board {
+            height: 444px;
+            font-family: Consolas, monospace;
+        }
+
+        /* Media Query for Mobile Devices */
+        @media (max-width: 768px) {
+            .container {
+                position: static;
+                display: block;
+            }
+
+            .col-3,
+            .col-9 {
+                flex: 100%;
+                padding: 20px;
+                max-width: 100%;
+            }
+
+            .fixed-heading {
+                font-size: 18px; /* Adjust the font size for mobile devices */
+            }
+
+            .bg-image {
+                background-image: url('https://i.postimg.cc/DwT6BvPj/background005.jpg');
+                background-size: cover;
+                background-repeat: no-repeat;
+            }
+
+            .col-3 .h4,
+            .col-9 .h4 {
+                font-size: 16px;
+            }
+        }
     </style>
 </head>
 
-<body class="bg-image" style="background-image: url(https://i.postimg.cc/VsHVvVvQ/background001.jpg);
-    background-repeat: no-repeat;">
+<body class="bg-image">
     <!-- HTML Part -->
-    <h3 class="fixed-heading"><font size=1>&nbsp</font>
-        <font color="#808080">SOFTWARE MONITORING & MANAGEMENT SYSTEM</font></h3>
+    <h3 class="fixed-heading">
+        <font color="#808080">SOFTWARE MONITORING & MANAGEMENT SYSTEM</font>
+    </h3>
     <div class="login-link">
-        <a href="http://127.0.0.1:8000/admin/">Log in</a>
+        <a href="/admin/">Log in</a>
     </div>
     <div class="container">
         <div class="col-3">
             <form>
                 <!-- Content of the page -->
-                <label for="search-history" class="h4 pt-5"><font color="white">Search History</font></label>
-                <textarea class="form-control"
-                          id="search-history" readonly rows="13"></textarea>
+                <label for="search-history" class="h4 pt-5">
+                    <font color="white">Search History</font>
+                </label>
+                <textarea class="form-control" id="search-history" readonly rows="13"></textarea>
 
                 <label for="input"></label>
-                <input class="form-control"
-                       placeholder="Enter client IP or any address"
-                       id="input" type="text"><br> <!-- ALL = 0.0.0.0 -->
+                <input class="form-control" placeholder="Enter client IP or any address" id="input" type="text"><br> <!-- ALL = 0.0.0.0 -->
 
-                <input class="btn btn-primary btn-lg btn-block"
-                       id="submit" type="button" value="Confirm">
+                <input class="btn btn-primary btn-lg btn-block" id="submit" type="button" value="Confirm">
             </form>
         </div>
         <div class="col-9">
-            <label for="display-board" class="h4 pt-5"><font color="white">Guest Mode User Interface</font>
-                <font color="#4169e1"> = Login For Details = </font></label>
-            <textarea class="form-control"
-                      id="display-board" readonly rows="18"></textarea><br>
+            <label for="display-board" class="h4 pt-5">
+                <font color="white">Guest Mode User Interface</font>
+            </label>
+            <textarea class="form-control" id="display-board" readonly rows="18"></textarea><br>
         </div>
     </div>
 
     <!-- JavaScript -->
     <script type="text/javascript">
-
         function handleKeyPress(event) {
             // Handle the ENTER keypress
             if (event.keyCode === 13) {
@@ -81,7 +145,7 @@
         document.getElementById('input').addEventListener('input', handleTextLength);
         document.getElementById('input').addEventListener('keypress', handleKeyPress);
 
-        // Re expression for IPv4 address
+        // Regular expression for IPv4 address
         const pattern = /^((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)\.){3}(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\/(3[0-2]|[12]?\d))?$/;
         const message = document.querySelector('#input');
         const display = document.querySelector('#display-board');
@@ -99,10 +163,9 @@
                     // Add message to the history
                     history.value += "IP: " + message.value + "\n";
                     display.value += "             Please wait a second. :)\n";
-                }
-                else {
+                } else {
                     display.value += "server@uaes: Invalid IPv4 address!\n";
-                    display.value += "guests@uaes: "
+                    display.value += "guests@uaes: ";
                     return;
                 }
                 // Send input text to the backend
@@ -130,15 +193,14 @@
             const message = document.querySelector('#input');
             if (e.data.length === 2) {
                 display.value += "server@uaes: No client on this IP!" + "\n";
-                display.value += "guests@uaes: "
-            }
-            else {
-                let str_length = e.data.length - 1
+                display.value += "guests@uaes: ";
+            } else {
+                let str_length = e.data.length - 1;
                 if (str_length > 300)
-                    str_length = 300
+                    str_length = 300;
                 display.value += "server@uaes: " + e.data.substring(0, str_length) + " ...\n";
                 display.value += "server@uaes: Please log in and refer to the .csv file for details.\n";
-                display.value += "guests@uaes: "
+                display.value += "guests@uaes: ";
             }
             message.disabled = false;
         };
@@ -152,9 +214,7 @@
             display.value += "\nserver@uaes: Connection Closed. Please refresh the page.\n";
             message.disabled = true;
         }
-
     </script>
-
 </body>
 
 </html>
