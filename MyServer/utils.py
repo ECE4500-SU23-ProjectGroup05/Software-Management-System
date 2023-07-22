@@ -1,5 +1,6 @@
 import os
 import csv
+import datetime
 import ipaddress
 
 from .models import WhiteList, UnauthorizedApp
@@ -41,9 +42,9 @@ class MyTools:
         white_list = WhiteList.objects.raw("select * from MyServer_whitelist")
         for row in white_list:
             if row.ip_addr == "0.0.0.0":
-                UnauthorizedApp.objects.filter(app_name = row.app_name).update(reason='authorized')
+                UnauthorizedApp.objects.filter(app_name=row.app_name).update(reason='authorized')
             else:
-                UnauthorizedApp.objects.filter(app_name = row.app_name,ip_addr=row.ip_addr).update(reason='authorized')
+                UnauthorizedApp.objects.filter(app_name=row.app_name, ip_addr=row.ip_addr).update(reason='authorized')
             if row.app_name in OFFICIAL_DATA:
                 OFFICIAL_DATA[row.app_name]["version"].add(row.version)
                 OFFICIAL_DATA[row.app_name]["IP_addr"].add(row.ip_addr)
@@ -73,7 +74,6 @@ class MyTools:
         client_ip_format = "195.0.0.1"
         result = {}
 
-    
         for app_name, app_data in client_data.items():
             if app_name in official_data:
                 if ("0.0.0.0" in official_data[app_name]['IP_addr']) or (
@@ -174,6 +174,16 @@ class MyTools:
         for user in users:
             user_email = user.email
             send_email(receiver=user_email, csv_name=csv_name, data=data)
+
+    @staticmethod
+    def timestamp_to_date(timestamp):
+        # Convert the timestamp to a datetime object
+        dt_object = datetime.datetime.fromtimestamp(timestamp)
+
+        # Format the datetime object to a desired date format
+        formatted_date = dt_object.strftime('%Y-%m-%d')  # Change the format
+
+        return formatted_date
 
 
 tools = MyTools()

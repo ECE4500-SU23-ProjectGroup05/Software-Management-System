@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-q=_q2_lwjwg+pjx-4mi0jdj!1bxgq*&-qo=_i5iep7ld(501y*
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -146,3 +146,59 @@ STATIC_URL = '/static/'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Admin Page UI
+# Configure the general behaviour of jazzmin
+JAZZMIN_SETTINGS = {
+    # title of the window (Will default to current_admin_site.site_title if absent or None)
+    "site_title": "Django Admin",
+
+    # Title on the login screen (19 chars max) (defaults to current_admin_site.site_header if absent or None)
+    "site_header": "SMMS Admin",
+
+    # Title on the brand (19 chars max) (defaults to current_admin_site.site_header if absent or None)
+    "site_brand": "SMMS Admin",
+
+    # Welcome text on the login screen
+    "welcome_sign": "Welcome to Software Management System Admin",
+
+    # Copyright on the footer
+    "copyright": "ECE4500 SU23 Project Group05",
+
+    # List of model admins to search from the search bar, search bar omitted if excluded
+    "search_model": [
+        # "auth.User",
+        "MyServer.UnauthorizedApp",
+    ],
+
+    # Links to put along the top menu
+    "topmenu_links": [
+        # Url that gets reversed (Permissions can be added)
+        {"name": "Home",  "url": "admin:index", "permissions": ["auth.view_user"]},
+
+        # external url that opens in a new window (Permissions can be added)
+        {"name": "Support", "url": "https://github.com/ECE4500-SU23-ProjectGroup05/Capstone-Design", "new_window": True},
+
+        {"name": "Malware Detection", "url": "https://github.com/ECE4500-SU23-ProjectGroup05/mal_detection",
+         "new_window": True},
+
+        # model admin to link to (Permissions checked against model)
+        # {"model": "auth.Group"},
+
+    ],
+
+    # Additional links to include in the user menu on the top right
+    "usermenu_links": [
+        # {"name": "Support", "url": "https://github.com/ECE4500-SU23-ProjectGroup05/Capstone-Design",
+        #  "new_window": True},
+    ],
+
+    # Change icons of the sidebar
+    "icons": {
+        "auth.user": "fas fa-user",
+        "auth.Group": "fas fa-users",
+        "MyServer.WhiteList": "fas fa-list",
+        "MyServer.UnauthorizedApp": "fas fa-ghost",
+    },
+
+}
