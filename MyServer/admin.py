@@ -10,7 +10,10 @@ class UnauthorizedAppAdmin(ExportActionModelAdmin, admin.ModelAdmin):
     formats = [base_formats.CSV]
     resource_class = UnauthorizedAppResource
     search_fields = ['app_name', 'ip_addr']
-    list_display = ['ip_addr', 'app_name', 'install_date']
+    list_display = ['ip_addr', 'app_name']
+
+    def has_add_permission(self, request):
+        return False
 
 
 class WhiteListAdmin(ExportActionModelAdmin, admin.ModelAdmin):
