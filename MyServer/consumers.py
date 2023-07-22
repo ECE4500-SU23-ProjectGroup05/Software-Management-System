@@ -86,7 +86,7 @@ class MyConsumer(WebsocketConsumer):
                     new_row = UnauthorizedApp(app_name=app_name,
                                               reason="unauthorized",
                                               ip_addr=self.client_ip,
-                                              install_date=app_data["Install_date"])
+                                              install_date=app_data["Install date"])
                     new_row.save()
             else:
                 database_data = UnauthorizedApp.objects.filter(app_name=app_name,
@@ -98,7 +98,7 @@ class MyConsumer(WebsocketConsumer):
                     new_row = UnauthorizedApp(app_name=app_name,
                                               reason="authorized",
                                               ip_addr=self.client_ip,
-                                              install_date=app_data["Install_date"])
+                                              install_date=app_data["Install date"])
                     new_row.save()
 
     def web_message(self, event):
