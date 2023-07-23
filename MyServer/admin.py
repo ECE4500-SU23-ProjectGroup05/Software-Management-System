@@ -1,4 +1,7 @@
+from typing import Any
 from django.contrib import admin
+from django.db.models.query import QuerySet
+from django.http.request import HttpRequest
 from .models import WhiteList, UnauthorizedApp
 from import_export.admin import ExportActionModelAdmin
 from import_export.formats import base_formats
@@ -13,6 +16,10 @@ class UnauthorizedAppAdmin(ExportActionModelAdmin, admin.ModelAdmin):
     search_fields = ['app_name', 'ip_addr']
     list_display = ['ip_addr', 'app_name']
     actions = ['update_database']
+
+    def get_queryset(self, request):
+        qs = super().get_queryset(request)
+        return qs.filter(reason='unauthorized')
 
     def has_add_permission(self, request):
         return False

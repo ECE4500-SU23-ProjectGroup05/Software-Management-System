@@ -40,6 +40,20 @@ class MyTools:
         official_data_format = {"app_name1": data, "app_name2": data}
 
         white_list = WhiteList.objects.raw("select * from MyServer_whitelist")
+
+        white_list_name = [row.app_name for row in white_list]
+        authorized_app = UnauthorizedApp.objects.filter(reason='authorized')
+
+        for row in authorized_app:
+            if row.app_name not in white_list_name:
+                UnauthorizedApp.objects.filter(app_name=row.app_name).update(reason='unauthorized')
+            else:
+                app_white_list = WhiteList.objects.filter(app_name=row.app_name)
+                white_list_ip = [row.ip_addr for row in app_white_list]
+                if (row.ip_addr not in white_list_ip) and ("0.0.0.0" not in white_list_ip):
+                    UnauthorizedApp.objects.filter(app_name=row.app_name, ip_addr=row.ip_addr).update(
+                        reason='unauthorized')
+
         for row in white_list:
             if row.ip_addr == "0.0.0.0":
                 UnauthorizedApp.objects.filter(app_name=row.app_name).update(reason='authorized')
