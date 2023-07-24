@@ -44,6 +44,7 @@ class MyConsumer(WebsocketConsumer):
                 CLIENTS_ID.add(self.client_mac)
                 self.send('DATA')
             elif parsed_data["status"] == "update":
+                print(f"Notice: Receive an update from client on {self.client_ip}")
                 result = self.compare_client_info(parsed_data)
                 self.store_compare_result(result, parsed_data["installed"])
 
@@ -52,7 +53,6 @@ class MyConsumer(WebsocketConsumer):
                     UnauthorizedApp.objects.filter(app_name=del_app_name,
                                                    ip_addr=self.client_ip).delete()
 
-                print(result)
                 print("Notice: Comparison results (update) has printed.")
             elif parsed_data['status'] == "new":
                 result = self.compare_client_info(parsed_data)
@@ -127,11 +127,7 @@ class WebConsumer(WebsocketConsumer):
             parsed_data = json.loads(text_data)
             if "message" in parsed_data:
                 IPv4_addr = parsed_data["message"]
-                if IPv4_addr == '0.0.0.0':
-                    print("Receive a '0.0.0.0' message from a web client.")
-                    tools.send_message_to_group('clients', 'DATA')
-                    data = tools.query_ip(IPv4_addr)
-                elif '/' in IPv4_addr:
+                if '/' in IPv4_addr:
                     print("Receive an 'xx/oo' message from a web client.")
                     data = tools.query_ip_with_mask(IPv4_addr)
                 else:

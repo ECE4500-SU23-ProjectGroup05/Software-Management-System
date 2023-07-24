@@ -31,6 +31,7 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
+    'admin_extra_buttons',
     'import_export',
     'jazzmin',
     'django.contrib.admin',

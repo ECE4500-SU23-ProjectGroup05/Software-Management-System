@@ -1,6 +1,7 @@
 import os
 import csv
 import datetime
+import threading
 import ipaddress
 
 from .models import WhiteList, UnauthorizedApp
@@ -9,7 +10,7 @@ from django.contrib.auth.models import User
 
 from server_side.settings import BASE_DIR
 from channels.layers import get_channel_layer
-from MyEmail.email_sending import send_email
+from MyEmail.email_sending import send_email, email_interval
 
 # Global variable that stores the black and white list.
 OFFICIAL_DATA = {}
@@ -162,6 +163,7 @@ class MyTools:
         :return: nothing
         """
         channel_layer = get_channel_layer()
+        # TODO: fix the potential bugs here
         channel_layer.group_send(
             group_name, {
                 'type': 'web.message',
