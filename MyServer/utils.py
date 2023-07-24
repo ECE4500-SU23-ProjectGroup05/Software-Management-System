@@ -1,5 +1,6 @@
 import os
 import csv
+import time
 import datetime
 import threading
 import ipaddress
@@ -201,6 +202,35 @@ class MyTools:
 
         return formatted_date
 
+    @staticmethod
+    def _send_timed_email_notification():
+        if email_interval == -1:
+            return
+
+        IPv4_addr = "0.0.0.0/0"
+
+        while True:
+            data = tools.query_ip(IPv4_addr)
+            tools.export_query_result(data, IPv4_addr)
+
+            # TODO: complete the following feature if possible
+            # Include number of app on the black list, not on list, etc.
+            # in the result data sent to the web UI.
+            # message box: e.g., 3 new apps has been installed since last time
+            # message box: The client has installed an app on the black list, etc.
+
+            specialized_info = {"unauthorized": len(data)}
+            tools.send_email_to_user(IPv4_addr, specialized_info)
+            time.sleep(email_interval * 24 * 3600)
+
+    @staticmethod
+    def start_timed_email_notification():
+        thread = threading.Thread(
+            target=tools._send_timed_email_notification, args=(), daemon=True,
+        )
+        thread.start()
+
 
 tools = MyTools()
 tools.read_black_white_list()
+tools.start_timed_email_notification()

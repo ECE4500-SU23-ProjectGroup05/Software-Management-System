@@ -134,19 +134,9 @@ class WebConsumer(WebsocketConsumer):
                     print("Receive an IP addr message from a web client.")
                     data = tools.query_ip(IPv4_addr)
 
-                tools.export_query_result(data, IPv4_addr)
-
-                specialized_info = {"unauthorized": len(data)}
                 self.send(json.dumps(data))
                 print("The result has been sent to the web client.")
 
-                tools.send_email_to_user(IPv4_addr, specialized_info)
-
-                # TODO: complete the following feature if possible
-                # Include number of app on the black list, not on list, etc.
-                # in the result data sent to the web UI.
-                # message box: e.g., 3 new apps has been installed since last time
-                # message box: The client has installed an app on the black list, etc.
             else:
                 print("Receive a message from a web client.")
                 self.send("Invalid message format.")

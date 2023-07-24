@@ -210,3 +210,5 @@ def _create_specialized_email(csv_name, data):
 
 _config = _read_settings()
 message = _create_notification_template()
+
+email_interval = _config["interval"] if _config["interval"] > 0 else -1
