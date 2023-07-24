@@ -2,7 +2,7 @@ import time
 
 
 def get_current_time():
-    return time.localtime()
+    return time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
 
 
 def sleep_for_some_time(hours=72):
