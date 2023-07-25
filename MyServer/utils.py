@@ -204,6 +204,11 @@ class MyTools:
 
     @staticmethod
     def _send_timed_email_notification():
+        """
+        Send timed email notification to all admin users. You can change for
+        different timed intervals in the settings.yml in MyEmail folder
+        :return: nothing
+        """
         if email_interval == -1:
             return
 
@@ -232,5 +237,6 @@ class MyTools:
 
 
 tools = MyTools()
+
 tools.read_black_white_list()
 tools.start_timed_email_notification()
