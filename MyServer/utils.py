@@ -210,7 +210,7 @@ class MyTools:
         IPv4_addr = "0.0.0.0/0"
 
         while True:
-            time.sleep(10)
+            time.sleep(30)
             data = tools.query_ip_with_mask(IPv4_addr)
             tools.export_query_result(data, IPv4_addr)
 
@@ -221,7 +221,7 @@ class MyTools:
 
             specialized_info = {"unauthorized": len(data)}
             tools.send_email_to_user(IPv4_addr, specialized_info)
-            time.sleep(email_interval * 24 * 3600 - 10)
+            time.sleep(email_interval * 24 * 3600 - 30)
 
     @staticmethod
     def start_timed_email_notification():
