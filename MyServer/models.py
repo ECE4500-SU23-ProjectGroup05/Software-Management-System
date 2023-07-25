@@ -17,8 +17,8 @@ class WhiteList(models.Model):
 
 class UnauthorizedApp(models.Model):
     app_name = models.CharField(max_length=256)
-    reason = models.CharField(max_length=256)  # app reason / version reason
     ip_addr = models.CharField(max_length=256)
+    reason = models.CharField(max_length=256)  # app reason / version reason
     install_date = models.CharField(max_length=256)  # date-key format YYYYMMDD
 
     def __str__(self):
