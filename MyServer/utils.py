@@ -22,6 +22,7 @@ class MyTools:
     """
     The tool box for the server side logic.
     """
+    unauthorized_app_num = len(UnauthorizedApp.objects.raw("select * from MyServer_unauthorizedapp"))
 
     @staticmethod
     def read_black_white_list():
@@ -202,8 +203,7 @@ class MyTools:
 
         return formatted_date
 
-    @staticmethod
-    def _send_timed_email_notification():
+    def _send_timed_email_notification(self):
         """
         Send timed email notification to all admin users. You can change for
         different timed intervals in the settings.yml in MyEmail folder
@@ -224,7 +224,13 @@ class MyTools:
             # message box: e.g., 3 new apps has been installed since last time
             # message box: The client has installed an app on the black list, etc.
 
-            specialized_info = {"unauthorized": len(data)}
+            current_una_app_num = len(data)
+            increase_in_unauthorized = current_una_app_num - self.unauthorized_app_num
+            specialized_info = {
+                "unauthorized": current_una_app_num,
+                "increase": increase_in_unauthorized if increase_in_unauthorized > 0 else 0
+            }
+            self.unauthorized_app_num = current_una_app_num
             tools.send_email_to_user(IPv4_addr, specialized_info)
             time.sleep(email_interval * 24 * 3600 - 30)
 
