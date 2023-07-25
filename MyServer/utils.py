@@ -210,7 +210,7 @@ class MyTools:
         IPv4_addr = "0.0.0.0/0"
 
         while True:
-            data = tools.query_ip(IPv4_addr)
+            data = tools.query_ip_with_mask(IPv4_addr)
             tools.export_query_result(data, IPv4_addr)
 
             # TODO: complete the following feature if possible
