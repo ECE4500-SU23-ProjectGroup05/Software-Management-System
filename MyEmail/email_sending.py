@@ -201,6 +201,8 @@ def _create_specialized_email(csv_name, data):
 <p style="font-size: 14px; line-height: 140%;"> <br></p>
 <p style="font-size: 14px; line-height: 140%;"><span style="font-size: 18px; line-height: 25.2px; color: #666666;">According to the black/white list you provided, we detect that the client(s) on {ip_addr} has installed {data["unauthorized"]} unauthorized apps.</span></p>
 <p style="font-size: 14px; line-height: 140%;"> <br></p>
+<p style="font-size: 14px; line-height: 140%;"><span style="font-size: 18px; line-height: 25.2px; color: #666666;">Total number of unauthorized apps has increased by {data["increase"]} since the last email.</span></p>
+<p style="font-size: 14px; line-height: 140%;"> <br></p>
 <p style="font-size: 14px; line-height: 140%;"><span style="font-size: 18px; line-height: 25.2px; color: #666666;">For details, please refer to the attached csv file.</span></p>
   </div>
 
