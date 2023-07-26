@@ -178,7 +178,7 @@ JAZZMIN_SETTINGS = {
         {"name": "Home",  "url": "admin:index", "permissions": ["auth.view_user"]},
 
         # external url that opens in a new window (Permissions can be added)
-        {"name": "Support", "url": "https://github.com/ECE4500-SU23-ProjectGroup05/Capstone-Design", "new_window": True},
+        {"name": "Support", "url": "https://github.com/ECE4500-SU23-ProjectGroup05/Software-Management-System", "new_window": True},
 
         {"name": "Malware Detection", "url": "http://127.0.0.1:8501",
          "new_window": True},
