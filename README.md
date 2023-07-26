@@ -31,9 +31,7 @@ The SMMS also incorporates a **malware detection function** in admin interface t
 
 ### Objective
 
-Out system aims at ensuring the security and authorization of all software and patches installed on terminal devices (i.e., clients) within a company. 
-
-The primary goal is to eliminate potential risks and vulnerabilities that could compromise the company's assets.
+Out system aims at ensuring the security and authorization of all software and patches installed on terminal devices (i.e., clients) within a company. The primary goal is to eliminate potential risks and vulnerabilities that could compromise the company's assets.
 
 ## Features
 
@@ -47,11 +45,11 @@ The primary goal is to eliminate potential risks and vulnerabilities that could 
 
 - **Authorization Control**
 
-  The system ensures that unauthorized software and outdated security patches installed on client devices are reported to the managers, preventing the use of unapproved applications and reducing potential vulnerabilities.
+  The system ensures that unauthorized software and outdated security patches installed on client devices are reported to the managers, reducing potential vulnerabilities.
 
 - **Malware Detection Function**
 
-  The system incorporates a malware detection function that allows users to upload executable files for safety analysis. It employs advanced scanning algorithms to detect potential malware and security threats.
+  The system incorporates a malware detection function that allows users to upload executable files for safety analysis. It employs RCNN to detect potential malware and security threats.
 
 - **Remote Web Access**
 
@@ -97,6 +95,12 @@ The Software Management System is open-source software licensed under the MIT Li
 ## Acknowledgments
 
 Special thanks to all contributors who have helped in the development of this system.
+
+#### Links to sub-projects
+
+- [ECE4500-SU23-ProjectGroup05/client-side](https://github.com/ECE4500-SU23-ProjectGroup05/client_side) 
+- [ECE4500-SU23-ProjectGroup05/server-side](https://github.com/ECE4500-SU23-ProjectGroup05/server_side) 
+- [ECE4500-SU23-ProjectGroup05/malware-detection](https://github.com/ECE4500-SU23-ProjectGroup05/mal_detection) 
 
 ---
 
