@@ -60,6 +60,8 @@ The client application will automatically send software information to the serve
 
 - `reconnect` - the time interval for reconnecting to the server if disconnected
 
+<div class="note">Be sure to change the `server-IP` and `port` to your actual server address!</div>
+
 #### Step 2: Open Executable
 
 - Open `MyClient.exe` and an icon will appear on the tray.
