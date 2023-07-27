@@ -104,7 +104,7 @@ To set up the central server to receive software and patch information from conn
 ## Requirements
 
 - Python >= 3.6 or Python == 2.7
-- Other dependencies (refer to [requirements.txt](./requirement.txt) for the complete list)
+- Other dependencies (refer to [requirements.txt](./requirements.txt) for the complete list)
 
 ## Contributing
 
