@@ -122,5 +122,5 @@ Special thanks to all contributors who have helped in the development of this sy
 
 ---
 
-*Note: This README provides an overview of the Software Monitoring & Management System (client-side). For detailed installation and usage instructions, please refer to the main project documentation.*
+*Note: This README provides an overview of the Software Monitoring & Management System (client-side). For detailed installation and usage instructions, please refer to the [main project](https://github.com/ECE4500-SU23-ProjectGroup05/Software-Management-System) documentation.*
 
