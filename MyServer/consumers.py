@@ -102,8 +102,10 @@ class MyConsumer(WebsocketConsumer):
                     new_row.save()
 
     def web_message(self, event):
+        print("Update Event Triggered.")
         message = event.get('message')
         self.send(message)
+        print("Update Message is Sent.")
 
 
 class WebConsumer(WebsocketConsumer):
@@ -134,7 +136,7 @@ class WebConsumer(WebsocketConsumer):
                     print("Receive an IP addr message from a web client.")
                     data = tools.query_ip(IPv4_addr)
 
-                self.send(json.dumps(data))
+                self.send(json.dumps(data, ensure_ascii=False))
                 print("The result has been sent to the web client.")
 
             else:
