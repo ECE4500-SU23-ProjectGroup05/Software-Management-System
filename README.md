@@ -52,8 +52,6 @@ The central server will automatically collect software information from the conn
 
 - Open the `settings.yml` file as a text document and edit the configurations to customize your setup.
 
-  > Example:
-
   <img src="https://github.com/ECE4500-SU23-ProjectGroup05/server_side/blob/main/PIC/image-20230727181041052.png" alt="image-20230727181041052" style="zoom:50%;" /> 
 
 - **Replace** the `sender` and `pwd` fields with your email address and email credentials for sending notifications.
@@ -86,21 +84,48 @@ The central server will automatically collect software information from the conn
 
 #### Step 3: Access Admin UI
 
-<img src="PIC/image-20230727180005623.png" alt="image-20230727180005623" style="zoom:50%;" /> 
+- Log in for the First Time:
 
-<img src="PIC/image-20230727175515686.png" alt="image-20230727175515686" style="zoom:50%;" />  
+  <img src="PIC/image-20230727180005623.png" alt="image-20230727180005623" style="zoom:50%;" /> 
 
-<img src="PIC/image-20230727175547998.png" alt="image-20230727175547998" style="zoom:50%;" /> 
+  > To access the Admin User Interface (UI), use the following default credentials:
+  >
+  > - Username: `admin`
+  > - Password: `admin@uaes`
 
-<img src="PIC/image-20230727175613278.png" alt="image-20230727175613278" style="zoom:50%;" /> 
+  > After logging in for the first time, it is essential to change the password immediately for enhanced security.
 
-<img src="PIC/image-20230727180330395.png" alt="image-20230727180330395" style="zoom:50%;" /> 
+  <img src="PIC/image-20230727175644002.png" alt="image-20230727175644002" style="zoom:50%;" /> 
 
-<img src="PIC/image-20230727175717358.png" alt="image-20230727175717358" style="zoom:50%;" /> 
+- Import or Manually Add Applications to the Whitelist:
 
-<img src="PIC/image-20230727175907928.png" alt="image-20230727175907928" style="zoom:50%;" /> 
+  > In the Admin UI, you have the option to either import applications using a `.csv` file or manually add them to the whitelist.
 
-<img src="PIC/image-20230727175644002.png" alt="image-20230727175644002" style="zoom:50%;" /> 
+  <img src="PIC/image-20230727175515686.png" alt="image-20230727175515686" style="zoom:50%;" /> 
+
+  <img src="PIC/image-20230727175547998.png" alt="image-20230727175547998" style="zoom:50%;" /> 
+
+- Search for Unauthorized Apps:
+
+  > The Admin UI allows you to search for unauthorized applications quickly.
+
+  <img src="PIC/image-20230727175613278.png" alt="image-20230727175613278" style="zoom:50%;" /> 
+
+  <img src="PIC/image-20230727180330395.png" alt="image-20230727180330395" style="zoom:50%;" /> 
+
+- Export and Download Selected Apps:
+
+  > You can export the selected applications from the Admin UI and download them for further analysis.
+
+  <img src="PIC/image-20230727175717358.png" alt="image-20230727175717358" style="zoom:50%;" /> 
+
+  <img src="PIC/image-20230727175907928.png" alt="image-20230727175907928" style="zoom:50%;" /> 
+
+- Access from Any Device:
+
+  > The SMMS Admin UI is fully responsive, enabling you to access the website from mobile devices, tablets, or iPads, providing convenient and flexible management of software applications.
+
+  <img src="PIC/image-20230727210011947.png" alt="image-20230727210011947" style="zoom:50%;" /> 
 
 ## Getting Started
 
