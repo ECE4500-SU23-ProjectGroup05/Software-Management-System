@@ -54,7 +54,7 @@ The central server will automatically collect software information from the conn
 
   > Example:
 
-  <img src="PIC/image-20230727154818936.png" alt="image-20230727154818936" style="zoom:50%;" />
+  <img src="PIC/image-20230727154818936.png" alt="image-20230727154818936" style="zoom:50%;" /> 
 
 - **Replace** the `sender` and `pwd` fields with your email address and email credentials for sending notifications.
 
