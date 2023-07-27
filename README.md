@@ -48,25 +48,13 @@ The primary goal is to eliminate potential risks and vulnerabilities that could 
 
 The central server will automatically collect software information from the connected clients. Here's a guide on how to use the server effectively.
 
-#### Step 2: Access Web UI
-
-- Open your preferred web browser and access the server's web interface using your provided IP address and port. (refer to [step 7](#Getting Started) for details)
-
-  > E.g., http://192.168.31.236:8000
-
-  <img src="PIC/image-20230727154818936.png" alt="image-20230727154818936" style="zoom:50%;" /> 
-
-  > In guest mode, you can search for unauthorized applications on specific IP addresses with net mask.
-
-- For more detailed control and monitoring, log in to the admin page.
-
 #### Step 1: Edit Email Settings
 
 - Open the `settings.yml` file as a text document and edit the configurations to customize your setup.
 
   > Example:
 
-  <img src="PIC/image-20230727154818936.png" alt="image-20230727154818936" style="zoom:50%;" /> 
+  <img src="https://github.com/ECE4500-SU23-ProjectGroup05/server_side/blob/main/PIC/image-20230727175717358.png" alt="image-20230727154818936" style="zoom:50%;" /> 
 
 - **Replace** the `sender` and `pwd` fields with your email address and email credentials for sending notifications.
 
@@ -83,6 +71,18 @@ The central server will automatically collect software information from the conn
   <img src="PIC/image-20230727154818936.png" alt="image-20230727154818936" style="zoom:50%;" />
 
 - If you wish to disable the email notification function, set `interval=-1`.
+
+#### Step 2: Access Web UI
+
+- Open your preferred web browser and access the server's web interface using your provided IP address and port. (refer to [step 7](#Getting Started) for details)
+
+  > E.g., http://192.168.31.236:8000
+
+  <img src="PIC/image-20230727154818936.png" alt="image-20230727154818936" style="zoom:50%;" /> 
+
+  > In guest mode, you can search for unauthorized applications on specific IP addresses with net mask.
+
+- For more detailed control and monitoring, log in to the admin page.
 
 #### Step 3: Access Admin UI
 
