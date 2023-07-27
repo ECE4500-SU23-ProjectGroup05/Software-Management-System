@@ -28,9 +28,17 @@ The primary goal is to eliminate potential risks and vulnerabilities that could 
 
 ## Features
 
-- **Timed Client-Server Communication**: The system operates through a client-server model, allowing clients to send software information to the central server when connected and at intervals.
-- **Authorization Control**: The system ensures that unauthorized software and outdated security patches installed on client devices are reported to the managers, preventing the use of unapproved applications and reducing potential vulnerabilities.
-- **Remote Web Access**: The server provides a secure web interface that allows users and managers to access the server from anywhere with proper authentication. (Our system is deployed on LAN by default)
+- **Timed Client-Server Communication**
+
+  The system operates through a client-server model, allowing clients to send software information to the central server when connected and at intervals.
+
+- **Authorization Control**
+
+  The system ensures that unauthorized software and outdated security patches installed on client devices are reported to the managers, preventing the use of unapproved applications and reducing potential vulnerabilities.
+
+- **Remote Web Access**
+
+  The server provides a secure web interface that allows users and managers to access the server from anywhere with proper authentication. (Our system is deployed on LAN by default)
 
 ## Usage
 
