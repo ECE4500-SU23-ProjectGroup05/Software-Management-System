@@ -1,0 +1,20 @@
+# The standard SMTP-over-SSL port (465) or self-defined port
+port: 465
+
+# The SMTP server, e.g., smtp.gmail.com, smtp.163.com
+smtp: "smtp.163.com"  # TEST ONLY
+
+# The email used to send the notification
+sender: "caowenqi4812@163.com"  # TEST ONLY
+
+# The email password or credential
+pwd: "XDOJMDAEANAZRJBD"  # TEST ONLY
+
+# demo email address
+demo_email: "uaes_software@proton.me"
+
+# demo email password
+demo_email_pwd: "email@uaes"
+
+# day(s), send a notification email every x day(s).
+interval: 1  # set '-1' to disable the function
