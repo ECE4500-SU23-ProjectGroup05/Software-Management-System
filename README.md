@@ -82,11 +82,21 @@ The central server will automatically collect software information from the conn
 
 #### Step 3: Access Admin UI
 
+<img src="PIC/image-20230727180005623.png" alt="image-20230727180005623" style="zoom:50%;" /> 
 
+<img src="PIC/image-20230727175515686.png" alt="image-20230727175515686" style="zoom:50%;" />  
 
+<img src="PIC/image-20230727175547998.png" alt="image-20230727175547998" style="zoom:50%;" /> 
 
+<img src="PIC/image-20230727175613278.png" alt="image-20230727175613278" style="zoom:50%;" /> 
 
+<img src="PIC/image-20230727180330395.png" alt="image-20230727180330395" style="zoom:50%;" /> 
 
+<img src="PIC/image-20230727175717358.png" alt="image-20230727175717358" style="zoom:50%;" /> 
+
+<img src="PIC/image-20230727175907928.png" alt="image-20230727175907928" style="zoom:50%;" /> 
+
+<img src="PIC/image-20230727175644002.png" alt="image-20230727175644002" style="zoom:50%;" /> 
 
 ## Getting Started
 
