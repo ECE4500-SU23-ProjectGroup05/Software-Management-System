@@ -82,7 +82,29 @@ To effectively use the Software Monitoring & Management System (SMMS), please fo
 
 ### Screenshots
 
+#### Server Admin Web UI
 
+<img src="server/PIC/image-20230727175613278.png" alt="image-20230727175613278" style="zoom:50%;" /> 
+
+<img src="server/PIC/image-20230727180330395.png" alt="image-20230727180330395" style="zoom:50%;" /> 
+
+<img src="server/PIC/image-20230727175907928.png" alt="image-20230727175907928" style="zoom:50%;" /> 
+
+<img src="server/PIC/image-20230727210011947.png" alt="image-20230727210011947" style="zoom:50%;" /> 
+
+<img src="server/PIC/image-20230727154818936.png" alt="image-20230727154818936" style="zoom:50%;" /> 
+
+#### Client Executable
+
+<img src="PIC/image-20230727224818293.png" alt="image-20230727224818293" style="zoom:50%;" /> 
+
+#### Malware Detection
+
+<img src="PIC/image-20230727225226264.png" alt="image-20230727225226264" style="zoom:50%;" /> 
+
+#### Email Notification
+
+<img src="https://github.com/ECE4500-SU23-ProjectGroup05/server_side/blob/main/PIC/image-20230727181111906.png" alt="image-20230727181111906" style="zoom:50%;" /> 
 
 ## Getting Started
 
