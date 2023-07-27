@@ -52,6 +52,8 @@ The central server will automatically collect software information from the conn
 
 - Open the `settings.yml` file as a text document and edit the configurations to customize your setup.
 
+  > Example:
+
   <img src="PIC/image-20230727181041052.png" alt="image-20230727181041052" style="zoom:50%;" />  
 
 - **Replace** the `sender` and `pwd` fields with your email address and email credentials for sending notifications.
@@ -63,6 +65,8 @@ The central server will automatically collect software information from the conn
   > E.g., if you want to receive notifications every week, set `interval=7`.
 
 - Now the system will automatically send notification emails to administrators every $x$ days (specified by the `interval` setting) to inform them about existing unauthorized apps, newly added ones, and outdated patches.
+
+  > Email Screenshot Example:
 
   <img src="PIC/image-20230727181111906.png" alt="image-20230727181111906" style="zoom:50%;" />  
 
