@@ -40,7 +40,7 @@ The client application will automatically send software information to the serve
 
 - Open the `settings.yml` as `txt` and edit the configurations as you like.
 
-  <img src="PIC/image-20230726170346953.png" alt="image-20230726170346953" style="zoom:50%;" /> 
+  <img src="PIC/image-20230726170346953.png" alt="image-20230726170346953" style="zoom: 50%;" /> 
 
 - `time` - the interval at which software information is automatically sent
 
@@ -56,11 +56,11 @@ The client application will automatically send software information to the serve
 
 - Open `MyClient.exe` and an icon will appear on the tray.
 
-  <img src="PIC/image-20230726170204223.png" alt="image-20230726170204223" style="zoom:50%;" /> 
+  <img src="PIC/image-20230726170204223.png" alt="image-20230726170204223" style="zoom: 50%;" /> 
 
 - Right click the icon to display the interface menu.
 
-  <img src="PIC/image-20230726170237725.png" alt="image-20230726170237725" style="zoom:50%;" /> 
+  <img src="PIC/image-20230726170237725.png" alt="image-20230726170237725" style="zoom: 50%;" /> 
 
 #### Step 3: Running the Program
 
@@ -104,8 +104,7 @@ To set up the central server to receive software and patch information from conn
 ## Requirements
 
 - Python >= 3.6 or Python == 2.7
-- Django >= 3.2
-- Database (SQLite3)
+- Other dependencies (refer to [requirements.txt](./requirements.txt) for the complete list)
 
 ## Contributing
 
