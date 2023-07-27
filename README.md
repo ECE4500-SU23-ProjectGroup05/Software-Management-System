@@ -18,7 +18,7 @@ The client-side for Software Monitoring & Management System, part of the Capston
 
 In many organizations, managing software and patches installations and updates is a complex task and a critical part of business administration.
 
-The **Software Monitoring & Management System** (SMMS) provides a comprehensive solution to **track and manage software and on client devices**. It allows managers to monitor and control software authorization and ensure that all devices have the latest security patches installed.
+The **Software Monitoring & Management System** (SMMS) provides a comprehensive solution to **track and manage software on client devices**. It allows managers to monitor and control software authorization and ensure that all devices have the latest security patches installed.
 
 ### Objective
 
