@@ -48,7 +48,7 @@ The primary goal is to eliminate potential risks and vulnerabilities that could 
 
 The central server will automatically collect software information from the connected clients. Here's a guide on how to use the server effectively.
 
-#### Step 1: Edit Email Settings
+### Step 1: Edit Email Settings
 
 - Open the `settings.yml` file as a text document and edit the configurations to customize your setup.
 
@@ -70,9 +70,9 @@ The central server will automatically collect software information from the conn
 
 - If you wish to disable the email notification function, set `interval=-1`.
 
-#### Step 2: Access Web UI
+### Step 2: Access Web UI
 
-- Open your preferred web browser and access the server's web interface using your provided IP address and port. (refer to [step 7](#Getting Started) for details)
+- Open your preferred web browser and access the server's web interface using your provided IP address and port. (refer to [step 7](#getting-started) for details)
 
   > E.g., http://192.168.31.236:8000
 
@@ -82,7 +82,7 @@ The central server will automatically collect software information from the conn
 
 - For more detailed control and monitoring, log in to the admin page.
 
-#### Step 3: Access Admin UI
+### Step 3: Access Admin UI
 
 - Log in for the First Time:
 
