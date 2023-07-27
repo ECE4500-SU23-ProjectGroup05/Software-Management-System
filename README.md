@@ -104,7 +104,7 @@ To set up the central server to receive software and patch information from conn
 ## Requirements
 
 - Python >= 3.6 or Python == 2.7
-- Other dependencies (refer to [requirements.txt](./requirements.txt) for the complete list)
+- Other dependencies (refer to [requirements.txt](./requirement.txt) for the complete list)
 
 ## Contributing
 
@@ -123,3 +123,4 @@ Special thanks to all contributors who have helped in the development of this sy
 ---
 
 *Note: This README provides an overview of the Software Monitoring & Management System (client-side). For detailed installation and usage instructions, please refer to the main project documentation.*
+
