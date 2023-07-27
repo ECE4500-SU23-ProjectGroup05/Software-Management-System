@@ -105,6 +105,8 @@ The central server will automatically collect software information from the conn
 
   <img src="PIC/image-20230727175547998.png" alt="image-20230727175547998" style="zoom:50%;" /> 
 
+  > To apply changes to the whitelist, make sure to select the modifications you want to update and click the `Go` button.
+
 - Search for Unauthorized Apps:
 
   > The Admin UI allows you to search for unauthorized applications quickly.
