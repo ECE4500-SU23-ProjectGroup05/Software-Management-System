@@ -54,7 +54,7 @@ The central server will automatically collect software information from the conn
 
   > Example:
 
-  <img src="https://github.com/ECE4500-SU23-ProjectGroup05/server_side/blob/main/PIC/image-20230727181041052" alt="image-20230727181041052" style="zoom:50%;" /> 
+  <img src="https://github.com/ECE4500-SU23-ProjectGroup05/server_side/blob/main/PIC/image-20230727181041052.png" alt="image-20230727181041052" style="zoom:50%;" /> 
 
 - **Replace** the `sender` and `pwd` fields with your email address and email credentials for sending notifications.
 
@@ -68,7 +68,7 @@ The central server will automatically collect software information from the conn
 
   > Email Screenshot Example:
 
-  <img src="https://github.com/ECE4500-SU23-ProjectGroup05/server_side/blob/main/PIC/image-20230727181111906" alt="image-20230727181111906" style="zoom:50%;" /> 
+  <img src="https://github.com/ECE4500-SU23-ProjectGroup05/server_side/blob/main/PIC/image-20230727181111906.png" alt="image-20230727181111906" style="zoom:50%;" /> 
 
 - If you wish to disable the email notification function, set `interval=-1`.
 
