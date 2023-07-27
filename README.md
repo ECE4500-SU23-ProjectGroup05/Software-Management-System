@@ -69,59 +69,24 @@ Out system aims at ensuring the security and authorization of all software and p
 
 ## Usage
 
-To effectively use the Software Monitoring & Management System (SMMS), follow these steps: 
+To effectively use the Software Monitoring & Management System (SMMS), please follow these steps: 
 
 1. **Start the Server**
-
    - Follow the instructions provided in the [server-side README](https://github.com/ECE4500-SU23-ProjectGroup05/server_side) to set up the SMMS server on your machine.
    - Ensure that the server is running and ready to accept connections from client devices.
-
 2. **Start the Clients**
-
    - Refer to the [client-side README](https://github.com/ECE4500-SU23-ProjectGroup05/client_side) for instructions on setting up the SMMS client application on individual client devices.
    - Make sure the clients are connected to the same Local Area Network (LAN) as the server.
 
-3. **Edit Settings (Client-side)**
+==*Note: Please refer to the corresponding [client](https://github.com/ECE4500-SU23-ProjectGroup05/client_side) and [server](https://github.com/ECE4500-SU23-ProjectGroup05/server_side) pages for details.*==
 
-   - Open the `settings.yml` file in the client application folder and customize the configurations to your preferences.
-   - Configure the `server-IP` and `port` fields to match the IP address and port of the SMMS server.
+### Screenshots
 
-4. **Run the Client Application**
 
-   - Open the client application (`MyClient.exe` on Windows or `MyClient.py` on other platforms) on each client device.
-   - The client application will automatically send software information to the server when connected and at intervals specified in the settings.
-
-5. **Access the Server Web Interface**
-
-   - Open your preferred web browser and enter the IP address and port of the SMMS server (e.g., http://192.168.31.236:8000).
-   - The server's web interface allows you to monitor and control software authorization from anywhere with proper authentication.
-
-6. **Log in to the Admin User Interface**
-
-   - For more detailed control and monitoring, log in to the admin page using the default credentials:
-     - Username: `admin`
-     - Password: `admin@uaes`
-   - After logging in for the first time, it is essential to change the password immediately for enhanced security.
-
-7. **Configure Email Settings (Server-side)**
-
-   - Open the `settings.yml` file in the server application folder and customize the configurations for email notifications.
-   - Replace the `sender` and `pwd` fields with your email address and email credentials for sending notifications.
-   - Change the `smtp` server to match the email server you are using.
-   - Set the `interval` to the desired number of days for sending notification emails. For example, setting `interval=7` will send notifications every week.
-
-8. **Manage Whitelist (Server-side)**
-
-   - In the admin page, you can import applications using a `.csv` file or manually add them to the whitelist to control authorized software.
-   - Make sure to apply changes to the whitelist to update the authorization settings.
-
-9. **Monitor Unauthorized Apps (Server-side)**
-
-   - The admin page allows you to search for unauthorized applications quickly and take appropriate actions.
 
 ## Getting Started
 
-To get started with the Software Monitoring & Management System (SMMS), follow these steps:
+To get started with the Software Monitoring & Management System (SMMS), please follow these steps:
 
 1. **Clone the Repository**
 
