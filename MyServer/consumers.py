@@ -3,6 +3,7 @@ import json
 from channels.generic.websocket import WebsocketConsumer
 from .utils import OFFICIAL_DATA, CLIENTS_ID, tools
 from .models import UnauthorizedApp
+from asgiref.sync import async_to_sync
 
 
 class MyConsumer(WebsocketConsumer):
@@ -13,7 +14,7 @@ class MyConsumer(WebsocketConsumer):
         # Perform connection setup here
         self.accept()
         # Add this consumer to a specific group
-        self.channel_layer.group_add(group='clients',
+        async_to_sync(self.channel_layer.group_add)(group='clients',
                                      channel=self.channel_name)
         self.send(json.dumps(
             {

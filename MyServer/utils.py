@@ -12,6 +12,7 @@ from django.contrib.auth.models import User
 from server_side.settings import BASE_DIR
 from channels.layers import get_channel_layer
 from MyEmail.email_sending import send_email, email_interval
+from asgiref.sync import async_to_sync
 
 # Global variable that stores the black and white list.
 OFFICIAL_DATA = {}
@@ -166,7 +167,7 @@ class MyTools:
         """
         channel_layer = get_channel_layer()
         # TODO: fix the potential bugs here
-        channel_layer.group_send(
+        async_to_sync(channel_layer.group_send)(
             group_name, {
                 'type': 'web.message',
                 'message': message
