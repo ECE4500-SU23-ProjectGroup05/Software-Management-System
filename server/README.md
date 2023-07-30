@@ -213,6 +213,33 @@ To start the Software Monitoring Management System (server-side), you can  follo
 
 To set up the clients to send their software and patch information to the central server - see our [client_side](https://github.com/ECE4500-SU23-ProjectGroup05/client_side) page for details.
 
+> **NOTE**  
+> The default database of the software management system is SQLite. If you want to change it to MySQL, you need to create a database in MySQL at first. Then you can modify [settings.py](https://github.com/ECE4500-SU23-ProjectGroup05/server_side/server_side/settings.py).  
+> The orginal setting is
+> ```
+> DATABASES = {
+>   'default': {
+>       'ENGINE': 'django.db.backends.sqlite3',
+>       'NAME': BASE_DIR / 'db.sqlite3',
+>    }
+>}
+> ```
+> Change it to
+> ```
+> DATABASES = {
+>     'default': {
+>         'ENGINE': 'django.db.backends.mysql',
+>         'NAME': 'DB_NAME',
+>         'USER': 'DB_USER',
+>         'PASSWORD': 'DB_PASSWORD',
+>         'HOST': 'localhost',   # Or an IP Address that your DB is hosted on
+>         'PORT': '3306',
+>     }
+> }
+> ```
+> Modify the information according to your MySQL settings (Database name, user, password, host and port)  
+> For more details, please refer to [Django tutorial](https://docs.djangoproject.com/en/3.2/ref/settings/#databases)
+
 ## Requirements
 
 - Python >= 3.6
