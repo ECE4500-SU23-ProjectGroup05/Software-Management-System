@@ -111,7 +111,7 @@ class MyTools:
         :return: all unauthorized apps where ip_addr starts with the given IP
         """
         param = [input_IP + "%%"]
-        result = UnauthorizedApp.objects.raw("select * from MyServer_unauthorizedapp where ip_addr like %s", param)
+        result = UnauthorizedApp.objects.raw("select * from MyServer_unauthorizedapp where ip_addr like %s and reason = 'unauthorized", param)
         result_dict = [model_to_dict(data) for data in result]
         return result_dict
 
@@ -126,7 +126,7 @@ class MyTools:
         start_ip = int(ip_net.network_address)
         end_ip = int(ip_net.broadcast_address)
         result = []
-        all_data = UnauthorizedApp.objects.raw("select * from MyServer_unauthorizedapp")
+        all_data = UnauthorizedApp.objects.raw("select * from MyServer_unauthorizedapp where reason = 'unauthorized'")
         for data in all_data:
             ip_addr_num = int(ipaddress.ip_network(data.ip_addr).network_address)
             if end_ip >= ip_addr_num >= start_ip:
