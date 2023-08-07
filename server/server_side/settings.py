@@ -180,7 +180,7 @@ JAZZMIN_SETTINGS = {
         # external url that opens in a new window (Permissions can be added)
         {"name": "Support", "url": "https://github.com/ECE4500-SU23-ProjectGroup05/Software-Management-System", "new_window": True},
 
-        {"name": "Malware Detection", "url": "http://127.0.0.1:8501",
+        {"name": "Malware Detection", "url": "http://192.168.31.247:8501",
          "new_window": True},
 
         # model admin to link to (Permissions checked against model)
